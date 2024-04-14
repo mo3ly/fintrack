@@ -75,6 +75,22 @@
   }
 }
 
+/* https://stackoverflow.com/questions/54646939/why-is-my-positionsticky-not-working-on-ios */
+/* body,
+html {
+  overflow-x: clip !important;
+} */
+
+.sticky-top {
+  position: -webkit-sticky;
+  position: -moz-sticky;
+  position: -ms-sticky;
+  position: -o-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
 .rtl-grid {
   direction: rtl;
 }

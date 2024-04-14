@@ -23,7 +23,7 @@ export function BackButton({
 }) {
   const backPath = useBackPath(currentResource);
   return (
-    <Button variant={"ghost"} asChild>
+    <Button variant={"ghost"} size={"icon"} asChild>
       <Link href={backPath}>
         <ChevronRightIcon />
       </Link>

@@ -82,7 +82,8 @@ export default function TransactionList({
         <EmptyState openModal={openModal} />
       ) : (
         <>
-          <div className="grid gap-2 md:grid-cols-2 md:gap-4 lg:grid-cols-3 ">
+          {/* grid gap-2 md:grid-cols-2 md:gap-4 lg:grid-cols-3  */}
+          <div className="flex space-s-2 md:grid md:gap-4 md:grid-cols-3 w-full overflow-x-auto">
             <StatsCard
               revenue={new Intl.NumberFormat("ar-EG", {
                 style: "currency",
@@ -160,7 +161,7 @@ const Transaction = ({
   return (
     <li
       className={cn(
-        "flex justify-between items-center my-2 border px-3 py-2 rounded-lg ",
+        "flex justify-between items-center my-2 border-b pb-2 ",
         mutating ? "opacity-30 animate-pulse" : "",
         deleting ? "text-destructive" : ""
       )}>
@@ -179,18 +180,22 @@ const Transaction = ({
               </div>
             )}
           </div>
-          {transaction.category?.name && (
-            <Link href={`/categories/${transaction.category?.id}`}>
-              <Badge className="inline-flex me-2">
-                {transaction.category?.name}
-              </Badge>
-            </Link>
-          )}
-          {transaction.title}
+          <div>
+            {transaction.category?.name && (
+              <Link href={`/categories/${transaction.category?.id}`}>
+                <Badge className="inline-flex md: md:text-xs text-[0.6rem] me-2 px-1.5 md:font-medium font-normal md:px-2.5">
+                  {transaction.category?.name}
+                </Badge>
+              </Link>
+            )}
+            <span className="/block text-xs md:text-sm">
+              {transaction.title}
+            </span>
+          </div>
         </div>
       </div>
 
-      <div className="w-44 font-semibold">
+      <div className="text-xs md:text-sm w-32 md:w-44 font-medium">
         {new Intl.NumberFormat("ar-EG", {
           style: "currency",
           currency: "EGP",
@@ -202,7 +207,7 @@ const Transaction = ({
           .replace("ج.م.", "ج.م")}
       </div>
 
-      <div className="w-44 truncate">
+      <div className="text-xs md:text-sm w-32 md:w-44 text-zinc-400">
         {transaction.date
           ? new Intl.DateTimeFormat("ar-EG", {
               day: "2-digit", // Display two digits for the day
@@ -211,7 +216,7 @@ const Transaction = ({
             }).format(new Date(transaction.date))
           : "غير محدد"}
       </div>
-      <Button variant={"link"} asChild>
+      <Button variant={"link"} asChild className="px-1">
         <Link href={basePath + "/" + transaction.id}>
           <span className="hidden md:block">معاينة</span>{" "}
           <Eye className="ms-1 h-4 w-4" />

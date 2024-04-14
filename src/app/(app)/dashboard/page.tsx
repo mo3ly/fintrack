@@ -14,20 +14,23 @@ export default async function Home() {
       <div className="animate-in fade-in-5 slide-in-from-bottom-2">
         <div className="grid gap-2 md:grid-cols-2 md:gap-4 lg:grid-cols-3 ">
           <StatsCard
-            revenue="٣٤٠ معاملة"
-            change="زيادة 15.5% من الشهر الماضي"
+            revenue="٠ معاملة"
+            // change="زيادة 15.5% من الشهر الماضي"
+            change=""
             title="عدد المعاملات"
             // className="bg-yellow-200 border-yellow-100 dark:border-yellow-800  text-black"
           />
           <StatsCard
-            revenue="٤٥٬٢٣١٫٨٩ جنيه"
-            change="زيادة 20.1% من الشهر الماضي"
+            revenue="٠ جنيه"
+            // change="زيادة 20.1% من الشهر الماضي"
+            change=""
             title="إجمالي الإيرادات"
             // className="bg-blue-200 border-blue-100 dark:border-blue-800 text-black"
           />
           <StatsCard
-            revenue="٣٬٤٥٦٫٧٨ جنيه"
-            change="زيادة 5.0% من الشهر الماضي"
+            revenue="٠ جنيه"
+            // change="زيادة 5.0% من الشهر الماضي"
+            change=""
             title="إجمالي المصروفات"
             // className="bg-red-200 border-red-100 dark:border-red-800 text-black"
           />

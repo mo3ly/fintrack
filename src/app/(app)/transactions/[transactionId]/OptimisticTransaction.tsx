@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
+import { BackButton } from "@/components/shared/BackButton";
 
 export default function OptimisticTransaction({
   transaction,
@@ -44,7 +45,7 @@ export default function OptimisticTransaction({
     setOptimisticTransaction({ ...input.data });
 
   return (
-    <div className="m-4">
+    <div className="/my-4">
       <Modal title="تعديل المعاملة" open={open} setOpen={setOpen}>
         <TransactionForm
           transaction={optimisticTransaction}
@@ -56,16 +57,22 @@ export default function OptimisticTransaction({
         />
       </Modal>
       <div className="flex justify-between items-center mb-4">
-        <h1 className="font-semibold text-2xl">
-          {optimisticTransaction.title}
-        </h1>
-        <Button className="" onClick={() => setOpen(true)}>
+        <div className="flex items-center space-s-2">
+          <BackButton currentResource="transactions" />
+          <h1 className="font-semibold text-2xl">
+            {optimisticTransaction.title}
+          </h1>
+        </div>
+        <Button
+          className=""
+          variant={"secondary"}
+          onClick={() => setOpen(true)}>
           تعديل <Pen className="w-4 h-4 ms-1" />
         </Button>
       </div>
       <div
         className={cn(
-          "bg-secondary p-4 rounded-lg break-all text-wrap",
+          "/bg-secondary border p-4 rounded-lg break-all text-wrap",
           optimisticTransaction.id === "optimistic" ? "animate-pulse" : ""
         )}>
         <div className="w-full mb-2">

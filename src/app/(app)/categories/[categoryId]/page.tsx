@@ -6,7 +6,6 @@ import OptimisticCategory from "./OptimisticCategory";
 import { checkAuth } from "@/lib/auth/utils";
 import TransactionList from "@/components/transactions/TransactionList";
 
-import { BackButton } from "@/components/shared/BackButton";
 import Loading from "@/app/loading";
 
 export const revalidate = 0;
@@ -32,10 +31,9 @@ const Category = async ({ id }: { id: string }) => {
   return (
     <Suspense fallback={<Loading />}>
       <div className="relative">
-        <BackButton currentResource="categories" />
         <OptimisticCategory category={category} />
       </div>
-      <div className="relative mt-8 mx-4">
+      <div className="relative mt-8 ">
         <h3 className="text-xl font-medium mb-4">
           المعاملات الخاصة ب {category.name}
         </h3>

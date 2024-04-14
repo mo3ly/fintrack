@@ -8,6 +8,8 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import Modal from "@/components/shared/Modal";
 import CategoryForm from "@/components/categories/CategoryForm";
+import { Pen } from "lucide-react";
+import { BackButton } from "@/components/shared/BackButton";
 
 export default function OptimisticCategory({
   category,
@@ -24,7 +26,7 @@ export default function OptimisticCategory({
     setOptimisticCategory({ ...input.data });
 
   return (
-    <div className="m-4">
+    <div className="/my-4">
       <Modal title="تعديل التصنيف" open={open} setOpen={setOpen}>
         <CategoryForm
           category={optimisticCategory}
@@ -34,9 +36,15 @@ export default function OptimisticCategory({
         />
       </Modal>
       <div className="flex justify-between items-end mb-4">
-        <h1 className="font-semibold text-2xl">{optimisticCategory.name}</h1>
-        <Button className="" onClick={() => setOpen(true)}>
-          تعديل
+        <div className="flex items-center space-s-2">
+          <BackButton currentResource="categories" />
+          <h1 className="font-semibold text-2xl">{optimisticCategory.name}</h1>
+        </div>
+        <Button
+          className=""
+          variant={"secondary"}
+          onClick={() => setOpen(true)}>
+          تعديل <Pen className="w-4 h-4 ms-1" />
         </Button>
       </div>
       {/* <pre
