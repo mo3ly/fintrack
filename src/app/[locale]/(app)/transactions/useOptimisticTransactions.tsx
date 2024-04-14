@@ -1,5 +1,8 @@
 import { type Category } from "@/lib/db/schema/categories";
-import { type Transaction, type CompleteTransaction } from "@/lib/db/schema/transactions";
+import {
+  type Transaction,
+  type CompleteTransaction,
+} from "@/lib/db/schema/transactions";
 import { OptimisticAction } from "@/lib/utils";
 import { useOptimistic } from "react";
 
@@ -13,12 +16,12 @@ export const useOptimisticTransactions = (
     transactions,
     (
       currentState: CompleteTransaction[],
-      action: OptimisticAction<Transaction>,
+      action: OptimisticAction<Transaction>
     ): CompleteTransaction[] => {
       const { data } = action;
 
       const optimisticCategory = categories.find(
-        (category) => category.id === data.categoryId,
+        (category) => category.id === data.categoryId
       )!;
 
       const optimisticTransaction = {
@@ -34,16 +37,16 @@ export const useOptimisticTransactions = (
             : [...currentState, optimisticTransaction];
         case "update":
           return currentState.map((item) =>
-            item.id === data.id ? { ...item, ...optimisticTransaction } : item,
+            item.id === data.id ? { ...item, ...optimisticTransaction } : item
           );
         case "delete":
           return currentState.map((item) =>
-            item.id === data.id ? { ...item, id: "delete" } : item,
+            item.id === data.id ? { ...item, id: "delete" } : item
           );
         default:
           return currentState;
       }
-    },
+    }
   );
 
   return { addOptimisticTransaction, optimisticTransactions };

@@ -1,6 +1,6 @@
-import { OverviewChart } from "@/app/(app)/dashboard/OverviewChart";
-import RecentTransactions from "@/app/(app)/dashboard/RecentTransactions";
-import StatsCard from "@/app/(app)/dashboard/StatsCard";
+import { OverviewChart } from "@/app/[locale]/(app)/dashboard/OverviewChart";
+import RecentTransactions from "@/app/[locale]/(app)/dashboard/RecentTransactions";
+import StatsCard from "@/app/[locale]/(app)/dashboard/StatsCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getUserAuth } from "@/lib/auth/utils";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";

@@ -3,6 +3,8 @@ import { IBM_Plex_Sans_Arabic } from "next/font/google";
 import "@/styles/globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { siteConfig } from "@/constant/config";
+import { getLocaleDirection } from "@/lib/utils";
+import { ReactElement } from "react";
 
 const IBM = IBM_Plex_Sans_Arabic({
   subsets: ["arabic"],
@@ -49,11 +51,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+  params: { locale },
+}: {
+  children: ReactElement;
+  params: { locale: string };
+}) {
+  const dir = getLocaleDirection(locale);
+
   return (
-    <html lang="ar" dir="rtl">
+    <html lang={locale} dir={dir} suppressHydrationWarning={true}>
       <body
         className={`${IBM.className} selection:bg-neutral-200 dark:selection:bg-neutral-600`}>
         <ThemeProvider

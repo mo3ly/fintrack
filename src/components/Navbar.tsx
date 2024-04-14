@@ -14,16 +14,19 @@ import { AuthSession } from "@/lib/auth/utils";
 import { Avatar } from "@radix-ui/react-avatar";
 import { AvatarFallback } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { useCurrentLocale } from "@/locales/client";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const currentLocale = useCurrentLocale();
   return (
     <div className="md:hidden mb-4 pb-2 w-full /sticky-top sticky top-4 z-10 block">
       <nav className="flex justify-between w-full items-center bg-primary-green text-black p-2 rounded-lg">
         <Link href={"/dashboard"}>
           <div className="font-semibold ps-3 text-lg">
-            {siteConfig.titleAr}
+            {currentLocale == "en" ? siteConfig.title : siteConfig.titleAr}
             {/* | {siteConfig.title} */}
           </div>
         </Link>
@@ -53,8 +56,10 @@ export default function Navbar() {
                 </Link>
               </li>
             ))}
-
-            <SignOutBtn />
+            <div className="flex items-center space-s-2">
+              <SignOutBtn />
+              <LanguageSwitcher />
+            </div>
           </ul>
         </div>
       ) : null}

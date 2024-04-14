@@ -6,7 +6,7 @@ import OptimisticCategory from "./OptimisticCategory";
 import { checkAuth } from "@/lib/auth/utils";
 import TransactionList from "@/components/transactions/TransactionList";
 
-import Loading from "@/app/(app)/settings/loading";
+import Loading from "@/app/[locale]/(app)/settings/loading";
 
 export const revalidate = 0;
 

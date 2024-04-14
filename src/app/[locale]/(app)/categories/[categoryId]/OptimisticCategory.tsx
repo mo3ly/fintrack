@@ -1,7 +1,7 @@
 "use client";
 
 import { useOptimistic, useState } from "react";
-import { TAddOptimistic } from "@/app/(app)/categories/useOptimisticCategories";
+import { TAddOptimistic } from "@/app/[locale]/(app)/categories/useOptimisticCategories";
 import { type Category } from "@/lib/db/schema/categories";
 import { cn } from "@/lib/utils";
 

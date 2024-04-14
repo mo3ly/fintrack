@@ -42,3 +42,9 @@ export const zNumber = z.preprocess((value) => {
   }
   return value;
 }, z.number({ invalid_type_error: "must be a number" }));
+
+export const getLocaleDirection = (locale: string) => {
+  const RTL_LOCALES = ["ar", "he", "fa", "ur"];
+  const language = locale?.split("-")[0];
+  return RTL_LOCALES.includes(language) ? "rtl" : "ltr";
+};

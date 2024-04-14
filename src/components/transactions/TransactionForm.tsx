@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import { useValidatedForm } from "@/lib/hooks/useValidatedForm";
 
 import { type Action, cn } from "@/lib/utils";
-import { type TAddOptimistic } from "@/app/(app)/transactions/useOptimisticTransactions";
+import { type TAddOptimistic } from "@/app/[locale]/(app)/transactions/useOptimisticTransactions";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -145,7 +145,6 @@ const TransactionForm = ({
 
   return (
     <form action={handleSubmit} onChange={handleChange} className={"space-y-0"}>
-      {/* حقول المخطط تبدأ هنا */}
       <div className="border px-2 py-2.5 rounded-xl mb-2 bg-yellow-200 dark:bg-yellow-600">
         <RadioGroup name="type" defaultValue={transaction?.type ?? "revenues"}>
           <div className="flex items-center justify-evenly">
@@ -233,7 +232,6 @@ const TransactionForm = ({
                 <CalendarIcon className="ms-auto h-4 w-4 opacity-50" />
               </Button>
             </PopoverTrigger>
-            {/*  className="w-auto p-0" align="start" */}
             <PopoverContent className="p-0 w-auto" align="center">
               <Calendar
                 mode="single"
@@ -255,13 +253,6 @@ const TransactionForm = ({
       </div>
       <div className="py-4">
         <div>
-          {/* <Label
-          className={cn(
-            "mb-2 inline-block",
-            errors?.title ? "text-destructive" : ""
-          )}>
-          العنوان
-        </Label> */}
           <Input
             type="text"
             name="title"
@@ -296,13 +287,6 @@ const TransactionForm = ({
           )}
         </div>
         <div>
-          {/* <Label
-          className={cn(
-            "mb-2 inline-block",
-            errors?.amount ? "text-destructive" : ""
-          )}>
-          المبلغ
-        </Label> */}
           <Input
             type="text"
             name="amount"
@@ -339,25 +323,6 @@ const TransactionForm = ({
           )}
         </div>
 
-        {/* <div>
-        <Label
-          className={cn(
-            "mb-2 inline-block",
-            errors?.type ? "text-destructive" : ""
-          )}>
-          النوع
-        </Label>
-        <Input
-          type="text"
-          name="type"
-          className={cn(errors?.type ? "ring ring-destructive" : "")}
-        />
-        {errors?.type ? (
-          <p className="text-xs text-destructive mt-2">{errors.type[0]}</p>
-        ) : (
-          <div className="h-6" />
-        )}
-      </div> */}
         <div className="hidden">
           <Label
             className={cn(
@@ -380,11 +345,8 @@ const TransactionForm = ({
         </div>
       </div>
 
-      {/* حقول المخطط تنتهي هنا */}
-
       <SaveButton errors={hasErrors} editing={editing} />
 
-      {/* زر الحذف */}
       {editing ? (
         <Button
           type="button"

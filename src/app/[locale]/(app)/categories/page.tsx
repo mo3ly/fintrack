@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 
-import Loading from "@/app/(app)/settings/loading";
+import Loading from "@/app/[locale]/(app)/settings/loading";
 import CategoryList from "@/components/categories/CategoryList";
 import { getCategories } from "@/lib/api/categories/queries";
 

@@ -3,10 +3,10 @@ import { notFound } from "next/navigation";
 
 import { getTransactionById } from "@/lib/api/transactions/queries";
 import { getCategories } from "@/lib/api/categories/queries";
-import OptimisticTransaction from "@/app/(app)/transactions/[transactionId]/OptimisticTransaction";
+import OptimisticTransaction from "@/app/[locale]/(app)/transactions/[transactionId]/OptimisticTransaction";
 import { checkAuth } from "@/lib/auth/utils";
 
-import Loading from "@/app/(app)/settings/loading";
+import Loading from "@/app/[locale]/(app)/settings/loading";
 
 export const revalidate = 0;
 

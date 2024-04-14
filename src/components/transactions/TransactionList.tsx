@@ -11,12 +11,12 @@ import {
 } from "@/lib/db/schema/transactions";
 import Modal from "@/components/shared/Modal";
 import { type Category, type CategoryId } from "@/lib/db/schema/categories";
-import { useOptimisticTransactions } from "@/app/(app)/transactions/useOptimisticTransactions";
+import { useOptimisticTransactions } from "@/app/[locale]/(app)/transactions/useOptimisticTransactions";
 import { Button } from "@/components/ui/button";
 import TransactionForm from "./TransactionForm";
 import { ChevronUp, ChevronDown, Eye, PlusIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import StatsCard from "@/app/(app)/dashboard/StatsCard";
+import StatsCard from "@/app/[locale]/(app)/dashboard/StatsCard";
 
 type TOpenModal = (transaction?: Transaction) => void;
 

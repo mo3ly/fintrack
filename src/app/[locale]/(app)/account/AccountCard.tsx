@@ -36,8 +36,7 @@ export function AccountCardFooter({
   return (
     <div
       className="bg-muted p-4 border dark:bg-card flex justify-between items-center rounded-b-lg"
-      id="footer"
-    >
+      id="footer">
       <p className="text-muted-foreground text-sm">{description}</p>
       {children}
     </div>
