@@ -7,21 +7,20 @@ export default function Page() {
   const { setTheme } = useTheme();
   return (
     <div>
-      <h1 className="text-2xl font-semibold">Settings</h1>
-      <div className="space-y-4 my-4">
+      <h1 className="text-2xl font-semibold">الإعدادات</h1>
+      <div className="space-y-4 my-4 duration-500 animate-in fade-in-5 slide-in-from-bottom-2">
         <div>
-          <h3 className="text-lg font-medium">Appearance</h3>
+          <h3 className="text-lg font-medium">المظهر</h3>
           <p className="text-sm text-muted-foreground">
-            Customize the appearance of the app. Automatically switch between
-            day and night themes.
+            قم بتخصيص مظهر التطبيق. التبديل التلقائي بين النماذج النهارية
+            والليلية.
           </p>
         </div>
         <Button
           asChild
           variant={"ghost"}
           className="w-fit h-fit"
-          onClick={() => setTheme("light")}
-        >
+          onClick={() => setTheme("light")}>
           <div className="flex flex-col">
             <div className="items-center rounded-md border-2 border-muted p-1 hover:border-accent">
               <div className="space-y-2 rounded-sm bg-[#ecedef] p-2">
@@ -40,7 +39,7 @@ export default function Page() {
               </div>
             </div>
             <span className="block w-full p-2 text-center font-normal">
-              Light
+              فاتح
             </span>
           </div>
         </Button>
@@ -48,8 +47,7 @@ export default function Page() {
           asChild
           variant={"ghost"}
           onClick={() => setTheme("dark")}
-          className="w-fit h-fit"
-        >
+          className="w-fit h-fit">
           <div className="flex flex-col">
             <div className="items-center rounded-md border-2 border-muted bg-popover p-1 hover:bg-accent hover:text-accent-foreground">
               <div className="space-y-2 rounded-sm bg-neutral-950 p-2">
@@ -68,7 +66,7 @@ export default function Page() {
               </div>
             </div>
             <span className="block w-full p-2 text-center font-normal">
-              Dark
+              داكن
             </span>
           </div>
         </Button>
@@ -76,8 +74,7 @@ export default function Page() {
           asChild
           variant={"ghost"}
           onClick={() => setTheme("system")}
-          className="w-fit h-fit"
-        >
+          className="w-fit h-fit">
           <div className="flex flex-col">
             <div className="items-center rounded-md border-2 border-muted bg-popover p-1 hover:bg-accent hover:text-accent-foreground">
               <div className="space-y-2 rounded-sm bg-neutral-300 p-2">
@@ -96,7 +93,7 @@ export default function Page() {
               </div>
             </div>
             <span className="block w-full p-2 text-center font-normal">
-              System
+              النظام
             </span>
           </div>
         </Button>

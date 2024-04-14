@@ -1,5 +1,5 @@
 import { SidebarLink } from "@/components/SidebarItems";
-import { Cog, Globe, HomeIcon } from "lucide-react";
+import { ArrowLeftRight, Cog, Home, Tag, User } from "lucide-react";
 
 type AdditionalLinks = {
   title: string;
@@ -7,9 +7,35 @@ type AdditionalLinks = {
 };
 
 export const defaultLinks: SidebarLink[] = [
-  { href: "/dashboard", title: "Home", icon: HomeIcon },
-  { href: "/account", title: "Account", icon: Cog },
-  { href: "/settings", title: "Settings", icon: Cog },
+  { href: "/dashboard", title: "الرئيسية", icon: Home },
+  {
+    href: "/transactions",
+    title: "المعاملات",
+    icon: ArrowLeftRight,
+  },
+  {
+    href: "/categories",
+    title: "التصنيفات",
+    icon: Tag,
+  },
+  { href: "/account", title: "الحساب", icon: User },
+  { href: "/settings", title: "الإعدادات", icon: Cog },
 ];
 
-export const additionalLinks: AdditionalLinks[] = [];
+export const additionalLinks: AdditionalLinks[] = [
+  // {
+  //   title: "Entities",
+  //   links: [
+  //     {
+  //       href: "/transactions",
+  //       title: "Transactions",
+  //       icon: ArrowLeftRight,
+  //     },
+  //     {
+  //       href: "/categories",
+  //       title: "Categories",
+  //       icon: Tag,
+  //     },
+  //   ],
+  // },
+];

@@ -16,23 +16,22 @@ export default function UpdateEmailCard({ email }: { email: string }) {
   });
 
   useEffect(() => {
-    if (state.success == true) toast.success("Updated Email");
-    if (state.error) toast.error("Error", { description: state.error });
+    if (state.success == true) toast.success("تم تحديث البريد الإلكتروني");
+    if (state.error) toast.error("خطأ", { description: state.error });
   }, [state]);
 
   return (
     <AccountCard
       params={{
-        header: "Your Email",
+        header: "بريدك الإلكتروني",
         description:
-          "Please enter the email address you want to use with your account.",
-      }}
-    >
+          "الرجاء إدخال عنوان البريد الإلكتروني الذي ترغب في استخدامه مع حسابك.",
+      }}>
       <form action={formAction}>
         <AccountCardBody>
           <Input defaultValue={email ?? ""} name="email" />
         </AccountCardBody>
-        <AccountCardFooter description="We will email vou to verify the change.">
+        <AccountCardFooter description="سنرسل إليك بريدًا إلكترونيًا للتحقق من التغيير.">
           <Submit />
         </AccountCardFooter>
       </form>
@@ -42,6 +41,5 @@ export default function UpdateEmailCard({ email }: { email: string }) {
 
 const Submit = () => {
   const { pending } = useFormStatus();
-  return <Button disabled={pending}>Update Email</Button>;
+  return <Button disabled={pending}>تحديث البريد الإلكتروني</Button>;
 };
-
