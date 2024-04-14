@@ -17,7 +17,7 @@ export default function SignUpPage() {
   });
 
   return (
-    <main className="max-w-lg mx-auto my-4 bg-background rounded-lg p-10 duration-500 animate-in fade-in-5 slide-in-from-bottom-2">
+    <main className="max-w-lg w-full mx-auto my-4 bg-background md:rounded-lg p-10 duration-500 animate-in fade-in-5 slide-in-from-bottom-2">
       <h1 className="text-2xl font-bold text-center">إنشاء حساب</h1>
       <AuthFormError state={state} />
       <form action={formAction}>

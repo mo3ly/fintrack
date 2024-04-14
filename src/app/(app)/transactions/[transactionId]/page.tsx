@@ -7,7 +7,7 @@ import OptimisticTransaction from "@/app/(app)/transactions/[transactionId]/Opti
 import { checkAuth } from "@/lib/auth/utils";
 
 import { BackButton } from "@/components/shared/BackButton";
-import Loading from "@/app/loading";
+import Loading from "@/app/(app)/settings/loading";
 
 export const revalidate = 0;
 
@@ -33,7 +33,6 @@ const Transaction = async ({ id }: { id: string }) => {
   return (
     <Suspense fallback={<Loading />}>
       <div className="relative">
-        <BackButton currentResource="transactions" />
         <OptimisticTransaction
           transaction={transaction}
           categories={categories}

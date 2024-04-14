@@ -7,7 +7,7 @@ type AdditionalLinks = {
 };
 
 export const defaultLinks: SidebarLink[] = [
-  { href: "/dashboard", title: "الرئيسية", icon: Home },
+  { href: "/dashboard", title: "لوحة التحكم", icon: Home },
   {
     href: "/transactions",
     title: "المعاملات",

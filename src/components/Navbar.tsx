@@ -21,10 +21,12 @@ export default function Navbar() {
   return (
     <div className="md:hidden mb-4 pb-2 w-full /sticky-top sticky top-4 z-10 block">
       <nav className="flex justify-between w-full items-center bg-primary-green text-black p-2 rounded-lg">
-        <div className="font-semibold ps-3 text-lg">
-          {siteConfig.titleAr}
-          {/* | {siteConfig.title} */}
-        </div>
+        <Link href={"/dashboard"}>
+          <div className="font-semibold ps-3 text-lg">
+            {siteConfig.titleAr}
+            {/* | {siteConfig.title} */}
+          </div>
+        </Link>
         <div></div>
         <Button variant="ghost" onClick={() => setOpen(!open)}>
           <AlignRight />

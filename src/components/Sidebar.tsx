@@ -12,12 +12,12 @@ const Sidebar = async () => {
   if (session.session === null) return null;
 
   return (
-    <aside className="h-screen min-w-52 bg-primary-green text-black hidden md:block p-4 pt-8 ">
+    <aside className="h-screen min-w-52 bg-primary-green text-black sticky top-0 hidden md:block p-4 pt-8 ">
       <div className="flex flex-col justify-between h-full">
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold ms-4">
-            {siteConfig.titleAr} | {siteConfig.title}
-          </h3>
+          <Link href={"/dashboard"}>
+            <h3 className="text-lg font-semibold ms-4">{siteConfig.titleAr}</h3>
+          </Link>
           <SidebarItems />
         </div>
         <div className="w-full">

@@ -146,16 +146,16 @@ const TransactionForm = ({
   return (
     <form action={handleSubmit} onChange={handleChange} className={"space-y-0"}>
       {/* حقول المخطط تبدأ هنا */}
-      <div className="border px-2 py-2.5 rounded-xl mb-2 bg-yellow-200 dark:bg-yellow-800">
+      <div className="border px-2 py-2.5 rounded-xl mb-2 bg-yellow-200 dark:bg-yellow-600">
         <RadioGroup name="type" defaultValue={transaction?.type ?? "revenues"}>
           <div className="flex items-center justify-evenly">
             <div className="flex items-center space-s-2">
-              <RadioGroupItem value="revenues" id="revenues" />
-              <Label htmlFor="revenues">ايرادات</Label>
-            </div>
-            <div className="flex items-center space-s-2">
               <RadioGroupItem value="expenses" id="expenses" />
               <Label htmlFor="expenses">مصروفات</Label>
+            </div>
+            <div className="flex items-center space-s-2">
+              <RadioGroupItem value="revenues" id="revenues" />
+              <Label htmlFor="revenues">ايرادات</Label>
             </div>
           </div>
         </RadioGroup>
@@ -233,7 +233,8 @@ const TransactionForm = ({
                 <CalendarIcon className="ms-auto h-4 w-4 opacity-50" />
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
+            {/*  className="w-auto p-0" align="start" */}
+            <PopoverContent className="p-0 w-auto" align="center">
               <Calendar
                 mode="single"
                 onSelect={(e: any) => setDate(e)}
@@ -241,7 +242,7 @@ const TransactionForm = ({
                 disabled={(date: any) =>
                   date > new Date() || date < new Date("1900-01-01")
                 }
-                initialFocus
+                // initialFocus
               />
             </PopoverContent>
           </Popover>

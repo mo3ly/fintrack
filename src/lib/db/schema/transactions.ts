@@ -6,7 +6,7 @@ import { categories } from "./categories";
 import { type getTransactions } from "@/lib/api/transactions/queries";
 
 import { nanoid, timestamps } from "@/lib/utils";
-import { title } from "process";
+import { zNumber } from "@/lib/utils";
 
 export const transactions = sqliteTable("transactions", {
   id: text("id")
@@ -37,7 +37,7 @@ export const insertTransactionSchema =
   createInsertSchema(transactions).omit(timestamps);
 export const insertTransactionParams = baseSchema
   .extend({
-    amount: z.coerce.number(),
+    amount: zNumber,
     date: z.coerce.date(),
     title: z.coerce
       .string({ required_error: "عنوان المعاملة مطلوبة!" })
@@ -54,7 +54,7 @@ export const insertTransactionParams = baseSchema
 export const updateTransactionSchema = baseSchema;
 export const updateTransactionParams = baseSchema
   .extend({
-    amount: z.coerce.number(),
+    amount: zNumber,
     date: z.coerce.date(),
     title: z.coerce
       .string({ required_error: "عنوان المعاملة مطلوبة!" })

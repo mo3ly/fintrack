@@ -6,7 +6,7 @@ import { getCategories } from "@/lib/api/categories/queries";
 import OptimisticTransaction from "@/app/(app)/transactions/[transactionId]/OptimisticTransaction";
 import { checkAuth } from "@/lib/auth/utils";
 
-import Loading from "@/app/loading";
+import Loading from "@/app/(app)/settings/loading";
 
 export const revalidate = 0;
 
