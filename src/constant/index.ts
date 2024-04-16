@@ -1,6 +1,7 @@
 export const DOMAINS = {
   LOCALHOST: "localhost:3000",
-  ROOT_DOMAIN: process.env.NEXT_PUBLIC_ROOT_DOMAIN as string,
+  ROOT_DOMAIN:
+    (process.env.NEXT_PUBLIC_ROOT_DOMAIN as string) || "www.fintrack.cash",
 };
 
 export const ROOT_DOMAIN =
