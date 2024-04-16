@@ -3,6 +3,7 @@ import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { z } from "zod";
 import { env } from "@/lib/env.mjs";
+import { DEFAULT_CURRENCY } from "@/constant/config";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -66,7 +67,7 @@ export const formatCurrency = (
 ) => {
   return new Intl.NumberFormat(isRTL ? "ar-EG" : "en-US", {
     style: "currency",
-    currency: currencyCode,
+    currency: currencyCode || DEFAULT_CURRENCY,
     currencyDisplay: "symbol", // Options are 'symbol', 'narrowSymbol', 'code', or 'name'
     minimumFractionDigits: 0, // Do not show decimals if they are zero
     maximumFractionDigits: 2, // Maximum of 2 decimal places
