@@ -12,7 +12,7 @@ import { getBaseUrl } from "@/lib/trpc/utils";
 import { env } from "@/lib/env.mjs";
 import { db } from "@/lib/db";
 import { DEFAULT_CURRENCY } from "@/constant/config";
-import { FULL_ROOT_DOMAIN } from "@/constant";
+import { ROOT_DOMAIN } from "@/constant";
 
 const baseUrl = getBaseUrl();
 
@@ -20,7 +20,9 @@ const baseUrl = getBaseUrl();
 const google = new Google(
   env.GOOGLE_ID,
   env.GOOGLE_SECRET,
-  `${FULL_ROOT_DOMAIN}/api/login/google/callback`
+  `http${
+    env.NODE_ENV == "production" ? "s" : ""
+  }://${ROOT_DOMAIN}/api/login/google/callback`
 );
 
 // add rate limited for it
