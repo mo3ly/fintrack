@@ -1,60 +1,39 @@
 import { OverviewChart } from "@/app/[locale]/(app)/dashboard/OverviewChart";
 import RecentTransactions from "@/app/[locale]/(app)/dashboard/RecentTransactions";
-import StatsCard from "@/app/[locale]/(app)/dashboard/StatsCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getUserAuth } from "@/lib/auth/utils";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  TimeInterval,
+  getTransactionSummary,
+} from "@/lib/api/transactions/queries";
+import PeriodSelector from "@/app/[locale]/(app)/dashboard/PeriodSelector";
+import SummaryCards from "@/app/[locale]/(app)/dashboard/SummaryCards";
 
-export default async function Home() {
+export default async function Home({
+  params,
+  searchParams,
+}: {
+  params: { slug: string };
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
   const { session } = await getUserAuth();
+
+  function getValidPeriod(period: any) {
+    const validPeriods = ["daily", "monthly", "yearly"];
+    return validPeriods.includes(period) ? period : "daily";
+  }
+
+  const period = getValidPeriod(searchParams?.period);
+
+  // @ts-ignore
+  const result = await getTransactionSummary(period);
+
   return (
     <main className="">
       <h1 className="text-2xl font-semibold mb-2">لوحة التحكم</h1>
-      {/* <pre className="bg-secondary p-4 rounded-lg my-2">
-        {JSON.stringify(session, null, 2)}
-      </pre> */}
-
-      <Tabs defaultValue="daily" className="space-y-4 rtl-grid my-4">
-        <TabsList>
-          <TabsTrigger value="daily">يومي</TabsTrigger>
-          <TabsTrigger value="monthly" disabled>
-            شهري
-          </TabsTrigger>
-          <TabsTrigger value="yearly" disabled>
-            سنوي
-          </TabsTrigger>
-        </TabsList>
-      </Tabs>
-      <div className="animate-in fade-in-5 slide-in-from-bottom-2  tour-step-2">
-        <div className="flex space-s-2 md:grid md:gap-4 md:grid-cols-3 w-full overflow-x-auto">
-          <StatsCard
-            revenue="٠ معاملة"
-            // change="زيادة 15.5% من الشهر الماضي"
-            change=""
-            title="عدد المعاملات"
-            // className="bg-yellow-200 border-yellow-100 dark:border-yellow-800  text-black"
-            className="w-44 flex-shrink-0 md:w-auto"
-          />
-          <StatsCard
-            revenue="٠ جنيه"
-            // change="زيادة 20.1% من الشهر الماضي"
-            change=""
-            title="إجمالي الإيرادات"
-            // className="bg-blue-200 border-blue-100 dark:border-blue-800 text-black"
-
-            className="w-44 flex-shrink-0 md:w-auto"
-          />
-          <StatsCard
-            revenue="٠ جنيه"
-            // change="زيادة 5.0% من الشهر الماضي"
-            change=""
-            title="إجمالي المصروفات"
-            // className="bg-red-200 border-red-100 dark:border-red-800 text-black"
-
-            className="w-44 flex-shrink-0 md:w-auto"
-          />
-        </div>
-
+      <PeriodSelector />
+      <div className="animate-in fade-in-5 slide-in-from-bottom-2 tour-step-2">
+        <SummaryCards summary={result} currency={session?.user.currency} />
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-8 my-4">
           <Card className="col-span-4  tour-step-3">
             <CardHeader>

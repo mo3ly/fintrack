@@ -19,6 +19,7 @@ export type AuthSession = {
       email?: string;
       username?: string;
       avatarUrl?: string;
+      currency?: string;
       role?: "admin" | "supporter" | "user";
     };
   } | null;
@@ -34,6 +35,7 @@ export const getUserAuth = async (): Promise<AuthSession> => {
         email: user.email,
         name: user.name,
         avatarUrl: user.avatarUrl,
+        currency: user.currency,
         role: user.role,
       },
     },

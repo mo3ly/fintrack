@@ -4,9 +4,9 @@ import { notFound } from "next/navigation";
 import { getTransactionById } from "@/lib/api/transactions/queries";
 import { getCategories } from "@/lib/api/categories/queries";
 import OptimisticTransaction from "@/app/[locale]/(app)/transactions/[transactionId]/OptimisticTransaction";
-import { checkAuth } from "@/lib/auth/utils";
+import { checkAuth, getUserAuth } from "@/lib/auth/utils";
 
-import Loading from "@/app/[locale]/(app)/settings/loading";
+import Loading from "@/app/[locale]/(app)/dashboard/loading";
 import { BasicUploader } from "@/app/[locale]/(app)/transactions/[transactionId]/_components/BasicUploader";
 
 export const revalidate = 0;
@@ -25,6 +25,7 @@ export default async function TransactionPage({
 
 const Transaction = async ({ id }: { id: string }) => {
   await checkAuth();
+  const { session } = await getUserAuth();
 
   const { transaction } = await getTransactionById(id);
   const { categories } = await getCategories();
@@ -37,6 +38,7 @@ const Transaction = async ({ id }: { id: string }) => {
           transaction={transaction}
           categories={categories}
           categoryId={transaction.categoryId}
+          currency={session?.user.currency}
         />
         <div className="mt-6">
           <BasicUploader />

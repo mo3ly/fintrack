@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Link } from "next-view-transitions";
 import { usePathname } from "next/navigation";
 
-import { cn } from "@/lib/utils";
+import { cn, formatCurrency } from "@/lib/utils";
 import {
   type Transaction,
   CompleteTransaction,
@@ -15,9 +15,10 @@ import { type Category, type CategoryId } from "@/lib/db/schema/categories";
 import { useOptimisticTransactions } from "@/app/[locale]/(app)/transactions/useOptimisticTransactions";
 import { Button } from "@/components/ui/button";
 import TransactionForm from "./TransactionForm";
-import { ChevronUp, ChevronDown, Eye, PlusIcon } from "lucide-react";
+import { ChevronUp, ChevronDown, Eye, PlusIcon, Plus } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import StatsCard from "@/app/[locale]/(app)/dashboard/StatsCard";
+import { useIsRTL } from "@/lib/hooks/useIsRTL";
 
 type TOpenModal = (transaction?: Transaction) => void;
 
@@ -25,10 +26,12 @@ export default function TransactionList({
   transactions,
   categories,
   categoryId,
+  currency,
 }: {
   transactions: CompleteTransaction[];
   categories: Category[];
   categoryId?: CategoryId;
+  currency: string | undefined;
 }) {
   const { optimisticTransactions, addOptimisticTransaction } =
     useOptimisticTransactions(transactions, categories);
@@ -42,6 +45,7 @@ export default function TransactionList({
       : setActiveTransaction(null);
   };
   const closeModal = () => setOpen(false);
+  const isRTL = useIsRTL();
 
   const totalRevenues = transactions.reduce((acc, transaction) => {
     if (transaction.type === "revenues") {
@@ -75,8 +79,8 @@ export default function TransactionList({
         />
       </Modal>
       <div className="absolute end-0 top-0 ">
-        <Button onClick={() => openModal()} variant={"outline"}>
-          +
+        <Button onClick={() => openModal()} variant={"secondary"}>
+          <Plus className="h-4 w-4 me-1 " /> معاملة جديدة
         </Button>
       </div>
       {optimisticTransactions.length === 0 ? (
@@ -84,45 +88,21 @@ export default function TransactionList({
       ) : (
         <>
           {/* grid gap-2 md:grid-cols-2 md:gap-4 lg:grid-cols-3  */}
-          <div className="flex space-s-2 md:grid md:gap-4 md:grid-cols-3 w-full overflow-x-auto">
+          <div className="flex space-s-2 md:grid md:gap-4 md:grid-cols-3 w-full overflow-x-auto my-4">
             <StatsCard
-              revenue={new Intl.NumberFormat("ar-EG", {
-                style: "currency",
-                currency: "EGP",
-                currencyDisplay: "symbol",
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 2,
-              })
-                .format(totalRevenues)
-                .replace("ج.م.", "ج.م")}
+              revenue={formatCurrency(totalRevenues, currency, isRTL)}
               change=""
               title="إجمالي الإيرادات"
               className="bg-green-200 border-green-100 dark:border-green-800  text-black"
             />
             <StatsCard
-              revenue={new Intl.NumberFormat("ar-EG", {
-                style: "currency",
-                currency: "EGP",
-                currencyDisplay: "symbol",
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 2,
-              })
-                .format(totalExpenses)
-                .replace("ج.م.", "ج.م")}
+              revenue={formatCurrency(totalExpenses, currency, isRTL)}
               change=""
               title="إجمالي المصروفات"
               className="bg-red-200 border-red-100 dark:border-red-800  text-black"
             />
             <StatsCard
-              revenue={new Intl.NumberFormat("ar-EG", {
-                style: "currency",
-                currency: "EGP",
-                currencyDisplay: "symbol",
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 2,
-              })
-                .format(netIncome)
-                .replace("ج.م.", "ج.م")}
+              revenue={formatCurrency(netIncome, currency, isRTL)}
               change=""
               title="الدخل الصافي"
               className="bg-yellow-200 border-yellow-100 dark:border-yellow-800  text-black"
@@ -135,6 +115,8 @@ export default function TransactionList({
                 transaction={transaction}
                 key={transaction.id}
                 openModal={openModal}
+                currency={currency}
+                isRTL={isRTL}
               />
             ))}
           </ul>
@@ -147,9 +129,13 @@ export default function TransactionList({
 const Transaction = ({
   transaction,
   openModal,
+  currency,
+  isRTL,
 }: {
   transaction: CompleteTransaction;
   openModal: TOpenModal;
+  currency: string | undefined;
+  isRTL: boolean;
 }) => {
   const optimistic = transaction.id === "optimistic";
   const deleting = transaction.id === "delete";
@@ -197,15 +183,7 @@ const Transaction = ({
       </div>
 
       <div className="text-xs md:text-sm w-32 md:w-44 font-medium">
-        {new Intl.NumberFormat("ar-EG", {
-          style: "currency",
-          currency: "EGP",
-          currencyDisplay: "symbol", // Options are 'symbol', 'narrowSymbol', 'code', or 'name'
-          minimumFractionDigits: 0, // Do not show decimals if they are zero
-          maximumFractionDigits: 2, // Maximum of 2 decimal places
-        })
-          .format(transaction.amount)
-          .replace("ج.م.", "ج.م")}
+        {formatCurrency(transaction.amount, currency, isRTL)}
       </div>
 
       <div className="text-xs md:text-sm w-32 md:w-44 text-zinc-400">

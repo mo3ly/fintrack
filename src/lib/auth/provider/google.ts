@@ -25,7 +25,6 @@ const google = new Google(
   }://${ROOT_DOMAIN}/api/login/google/callback`
 );
 
-// add rate limited for it
 export async function createGoogleAuthorizationURL(): Promise<Response> {
   const state = generateState();
   const url = await google.createAuthorizationURL(
@@ -63,6 +62,7 @@ export async function validateGoogleCallback(
   const state = url.searchParams.get("state");
   const storedState = cookies().get("google_oauth_state")?.value ?? null;
 
+  console.log(url);
   if (!code || !state || !storedState || state !== storedState) {
     return new Response(null, {
       status: 400,

@@ -27,7 +27,7 @@ export function BackButton({
   return (
     <Button variant={"ghost"} size={"icon"} asChild>
       <Link href={backPath}>
-        <ChevronRightIcon />
+        <ChevronRightIcon className="ltr:rotate-180" />
       </Link>
     </Button>
   );

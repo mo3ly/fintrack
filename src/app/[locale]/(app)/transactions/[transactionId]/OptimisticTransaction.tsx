@@ -3,7 +3,7 @@
 import { useOptimistic, useState } from "react";
 import { TAddOptimistic } from "@/app/[locale]/(app)/transactions/useOptimisticTransactions";
 import { type Transaction } from "@/lib/db/schema/transactions";
-import { cn } from "@/lib/utils";
+import { cn, formatCurrency } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
 import Modal from "@/components/shared/Modal";
@@ -24,16 +24,19 @@ import { Badge } from "@/components/ui/badge";
 // import Link from "next/link";
 import { Link } from "next-view-transitions";
 import { BackButton } from "@/components/shared/BackButton";
+import { useIsRTL } from "@/lib/hooks/useIsRTL";
 
 export default function OptimisticTransaction({
   transaction,
   categories,
   categoryId,
+  currency,
 }: {
   transaction: Transaction;
 
   categories: Category[];
   categoryId?: CategoryId;
+  currency: string | undefined;
 }) {
   const [open, setOpen] = useState(false);
   const openModal = (_?: Transaction) => {
@@ -44,6 +47,8 @@ export default function OptimisticTransaction({
     useOptimistic(transaction);
   const updateTransaction: TAddOptimistic = (input) =>
     setOptimisticTransaction({ ...input.data });
+
+  const isRTL = useIsRTL();
 
   return (
     <div className="/my-4">
@@ -68,7 +73,8 @@ export default function OptimisticTransaction({
           className=""
           variant={"secondary"}
           onClick={() => setOpen(true)}>
-          تعديل <Pen className="w-4 h-4 ms-1" />
+          <Pen className="w-4 h-4 me-1" />
+          تعديل
         </Button>
       </div>
       <div
@@ -109,15 +115,7 @@ export default function OptimisticTransaction({
 
         <div className="w-full mb-2">
           <Coins className="me-2 w-4 h-4 inline-flex" />
-          {new Intl.NumberFormat("ar-EG", {
-            style: "currency",
-            currency: "EGP",
-            currencyDisplay: "symbol", // Options are 'symbol', 'narrowSymbol', 'code', or 'name'
-            minimumFractionDigits: 0, // Do not show decimals if they are zero
-            maximumFractionDigits: 2, // Maximum of 2 decimal places
-          })
-            .format(transaction.amount)
-            .replace("ج.م.", "ج.م")}
+          {formatCurrency(transaction.amount, currency, isRTL)}
         </div>
 
         <div className="w-full mb-2">

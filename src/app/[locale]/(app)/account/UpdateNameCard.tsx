@@ -9,6 +9,7 @@ import { updateUser } from "@/lib/actions/users";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Loader, Save } from "lucide-react";
 export default function UpdateNameCard({ name }: { name: string }) {
   const [state, formAction] = useFormState(updateUser, {
     error: "",
@@ -40,5 +41,14 @@ export default function UpdateNameCard({ name }: { name: string }) {
 
 const Submit = () => {
   const { pending } = useFormStatus();
-  return <Button disabled={pending}>تحديث الاسم</Button>;
+  return (
+    <Button disabled={pending}>
+      {pending ? (
+        <Loader className="me-1 h-4 w-4 animate-spin" />
+      ) : (
+        <Save className="me-1 h-4 w-4" />
+      )}
+      حفظ
+    </Button>
+  );
 };

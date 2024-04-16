@@ -44,7 +44,8 @@ export default function OptimisticCategory({
           className=""
           variant={"secondary"}
           onClick={() => setOpen(true)}>
-          تعديل <Pen className="w-4 h-4 ms-1" />
+          <Pen className="w-4 h-4 me-1" />
+          تعديل
         </Button>
       </div>
       {/* <pre

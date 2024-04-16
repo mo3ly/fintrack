@@ -23,6 +23,7 @@ export const lucia = new Lucia(adapter, {
       email: attributes.email,
       name: attributes.name,
       avatarUrl: attributes.avatarUrl,
+      currency: attributes.currency,
       role: attributes.role,
     };
   },
@@ -39,6 +40,7 @@ interface DatabaseUserAttributes {
   email: string;
   name: string;
   avatarUrl: string;
+  currency: string;
   role: "admin" | "supporter" | "user";
 }
 

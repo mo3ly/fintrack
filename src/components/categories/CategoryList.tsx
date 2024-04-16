@@ -12,7 +12,7 @@ import Modal from "@/components/shared/Modal";
 import { useOptimisticCategories } from "@/app/[locale]/(app)/categories/useOptimisticCategories";
 import { Button } from "@/components/ui/button";
 import CategoryForm from "./CategoryForm";
-import { Eye, PlusIcon } from "lucide-react";
+import { Eye, Plus, PlusIcon } from "lucide-react";
 
 type TOpenModal = (category?: Category) => void;
 
@@ -45,8 +45,8 @@ export default function CategoryList({
         />
       </Modal>
       <div className="absolute end-0 top-0 ">
-        <Button onClick={() => openModal()} variant={"outline"}>
-          +
+        <Button onClick={() => openModal()} variant={"secondary"}>
+          <Plus className="h-4 w-4 me-1" /> تصنيف جديد
         </Button>
       </div>
       {optimisticCategories.length === 0 ? (
@@ -91,7 +91,7 @@ const Category = ({
       <div className="w-full">
         <div>{category.name}</div>
       </div>
-      <Button variant={"link"} asChild>
+      <Button className="px-1" variant={"link"} asChild>
         <Link href={basePath + "/" + category.id}>
           معاينة <Eye className="ms-1 h-4 w-4" />
         </Link>

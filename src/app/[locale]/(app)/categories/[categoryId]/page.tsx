@@ -3,10 +3,10 @@ import { notFound } from "next/navigation";
 
 import { getCategoryByIdWithTransactions } from "@/lib/api/categories/queries";
 import OptimisticCategory from "./OptimisticCategory";
-import { checkAuth } from "@/lib/auth/utils";
+import { checkAuth, getUserAuth } from "@/lib/auth/utils";
 import TransactionList from "@/components/transactions/TransactionList";
 
-import Loading from "@/app/[locale]/(app)/settings/loading";
+import Loading from "@/app/[locale]/(app)/dashboard/loading";
 
 export const revalidate = 0;
 
@@ -24,6 +24,7 @@ export default async function CategoryPage({
 
 const Category = async ({ id }: { id: string }) => {
   await checkAuth();
+  const { session } = await getUserAuth();
 
   const { category, transactions } = await getCategoryByIdWithTransactions(id);
 
@@ -41,6 +42,7 @@ const Category = async ({ id }: { id: string }) => {
           categories={[]}
           categoryId={category.id}
           transactions={transactions}
+          currency={session?.user.currency}
         />
       </div>
     </Suspense>
