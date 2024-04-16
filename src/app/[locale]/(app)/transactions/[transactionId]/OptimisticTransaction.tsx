@@ -21,7 +21,8 @@ import {
   Tag,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import Link from "next/link";
+// import Link from "next/link";
+import { Link } from "next-view-transitions";
 import { BackButton } from "@/components/shared/BackButton";
 
 export default function OptimisticTransaction({
@@ -95,11 +96,13 @@ export default function OptimisticTransaction({
           <Tag className="me-2 w-4 h-4 inline-flex" />
           <Link href={`/categories/${transaction.categoryId}`}>
             {/* @ts-ignore */}
-            {transaction.category?.name && (
+            {transaction.category?.name ? (
               <Badge className="inline-flex me-2">
                 {/* @ts-ignore */}
                 {transaction.category?.name}
               </Badge>
+            ) : (
+              "غير مصنف"
             )}
           </Link>
         </div>
@@ -135,7 +138,15 @@ export default function OptimisticTransaction({
 
         <div className="w-full">
           <Image className="me-2 w-4 h-4 inline-flex" />
-          {optimisticTransaction.images || "لا توجد صور"}
+          {optimisticTransaction.images ? (
+            <img
+              src={optimisticTransaction.images}
+              alt="image"
+              className="rounded-lg w-44 object-cover"
+            />
+          ) : (
+            "لا توجد صور"
+          )}
         </div>
       </div>
       {/* <pre

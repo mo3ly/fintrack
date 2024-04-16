@@ -8,8 +8,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { cn } from "@/lib/utils";
 
-export function LanguageSwitcher() {
+export function LanguageSwitcher({ className }: { className?: string }) {
   // Uncomment to preserve the search params. Don't forget to also uncomment the Suspense in the layout
   const changeLocale = useChangeLocale(/*{ preserveSearchParams: true }*/);
   const currentLocale = useCurrentLocale();
@@ -22,7 +23,8 @@ export function LanguageSwitcher() {
   return (
     <div className="/absolute /end-8 /bottom-4">
       <Select onValueChange={onChange} defaultValue={currentLocale}>
-        <SelectTrigger className="w-[160px] h-8 text-sm">
+        <SelectTrigger
+          className={cn("w-[160px] bg-background h-8 text-sm", className)}>
           <SelectValue placeholder="Select a language" />
         </SelectTrigger>
         <SelectContent>

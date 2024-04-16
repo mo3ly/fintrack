@@ -13,7 +13,7 @@ export default async function TransactionsPage() {
     <main>
       <div className="relative">
         <div className="flex justify-between">
-          <h1 className="font-semibold text-2xl my-2">المعاملات</h1>
+          <h1 className="font-semibold text-2xl mb-2">المعاملات</h1>
         </div>
         <Transactions />
       </div>

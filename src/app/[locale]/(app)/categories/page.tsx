@@ -13,7 +13,7 @@ export default async function CategoriesPage() {
     <main>
       <div className="relative">
         <div className="flex justify-between">
-          <h1 className="font-semibold text-2xl my-2">التصنيفات</h1>
+          <h1 className="font-semibold text-2xl mb-2">التصنيفات</h1>
         </div>
         <Categories />
       </div>

@@ -7,6 +7,7 @@ import OptimisticTransaction from "@/app/[locale]/(app)/transactions/[transactio
 import { checkAuth } from "@/lib/auth/utils";
 
 import Loading from "@/app/[locale]/(app)/settings/loading";
+import { BasicUploader } from "@/app/[locale]/(app)/transactions/[transactionId]/_components/BasicUploader";
 
 export const revalidate = 0;
 
@@ -37,6 +38,9 @@ const Transaction = async ({ id }: { id: string }) => {
           categories={categories}
           categoryId={transaction.categoryId}
         />
+        <div className="mt-6">
+          <BasicUploader />
+        </div>
       </div>
     </Suspense>
   );

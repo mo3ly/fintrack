@@ -5,6 +5,8 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import { siteConfig } from "@/constant/config";
 import { getLocaleDirection } from "@/lib/utils";
 import { ReactElement } from "react";
+import { TailwindIndicator } from "@/components/TailwindIndicator";
+import { ViewTransitions } from "next-view-transitions";
 
 const IBM = IBM_Plex_Sans_Arabic({
   subsets: ["arabic"],
@@ -59,17 +61,26 @@ export default function RootLayout({
   const dir = getLocaleDirection(locale);
 
   return (
-    <html lang={locale} dir={dir} suppressHydrationWarning={true}>
-      <body
-        className={`${IBM.className} selection:bg-neutral-200 dark:selection:bg-neutral-600`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange>
-          {children}
-        </ThemeProvider>
-      </body>
-    </html>
+    <ViewTransitions>
+      <html lang={locale} dir={dir} suppressHydrationWarning={true}>
+        <head>
+          <script
+            src="https://beamanalytics.b-cdn.net/beam.min.js"
+            data-token="8122eeee-58ff-4438-bb03-5c128cff07fd"
+            async></script>
+        </head>
+        <body
+          className={`${IBM.className} bg-background selection:bg-neutral-200 dark:selection:bg-neutral-600`}>
+          <TailwindIndicator />
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange>
+            {children}
+          </ThemeProvider>
+        </body>
+      </html>
+    </ViewTransitions>
   );
 }

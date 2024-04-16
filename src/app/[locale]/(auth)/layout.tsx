@@ -1,6 +1,6 @@
-import { siteConfig } from "@/constant/config";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import Title from "@/components/auth/Title";
 import { getUserAuth } from "@/lib/auth/utils";
-import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export default async function AuthLayout({
@@ -14,12 +14,11 @@ export default async function AuthLayout({
   return (
     <div className="bg-primary-green flex items-center mx-auto h-screen">
       <div className="mx-auto w-full">
-        <Link href={"/"}>
-          <h3 className="text-3xl md:text-4xl text-black font-semibold ms-4 text-center">
-            {siteConfig.title}
-          </h3>
-        </Link>
+        <Title />
         <div className="w-full">{children}</div>
+        <div className="w-full flex items-center justify-center mx-auto">
+          <LanguageSwitcher className="rounded-none md:rounded-md w-[90px] bg-primary-green border-0 text-black" />
+        </div>
       </div>
     </div>
   );

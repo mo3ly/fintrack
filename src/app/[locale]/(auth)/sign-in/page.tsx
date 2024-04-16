@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+// import { Link } from "next-view-transitions";
+import { useEffect, useRef } from "react";
 import { useFormState } from "react-dom";
 import { useFormStatus } from "react-dom";
 
@@ -10,11 +12,28 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import AuthFormError from "@/components/auth/AuthFormError";
+import { Icons } from "@/components/icons/icons";
+import { useSearchParams } from "next/navigation";
+import { toast } from "sonner";
 
 export default function SignInPage() {
+  const searchParams = useSearchParams();
   const [state, formAction] = useFormState(signInAction, {
     error: "",
   });
+
+  const email = searchParams.get("email");
+  const accountExists = searchParams.get("error");
+
+  const hasToastBeenShown = useRef(false);
+  useEffect(() => {
+    if (accountExists === "account_exists" && !hasToastBeenShown.current) {
+      toast.error(
+        "An account with this email already exists. Please log in using email and password."
+      );
+      hasToastBeenShown.current = true; // Prevent future toasts
+    }
+  }, [accountExists]);
 
   return (
     <main className="max-w-lg mx-auto my-4 bg-background md:rounded-lg p-10 duration-500 animate-in fade-in-5 slide-in-from-bottom-2">
@@ -24,7 +43,7 @@ export default function SignInPage() {
         <Label htmlFor="email" className="text-muted-foreground">
           البريد الإلكتروني
         </Label>
-        <Input name="email" id="email" type="email" required />
+        <Input name="email" id="email" type="email" required value={email!} />
         <br />
         <Label htmlFor="password" className="text-muted-foreground">
           كلمة المرور
@@ -33,6 +52,13 @@ export default function SignInPage() {
         <br />
         <SubmitButton />
       </form>
+      <div className="mt-4 text-sm text-center text-muted-foreground">
+        <Link href="/sign-in/google">
+          <Button variant={"secondary"} className="w-full">
+            <Icons.Google className="h-4 w-4 me-2" /> Continue with Google
+          </Button>
+        </Link>
+      </div>
       <div className="mt-4 text-sm text-center text-muted-foreground">
         ليس لديك حساب بعد؟{" "}
         <Link

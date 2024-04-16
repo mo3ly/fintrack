@@ -4,7 +4,12 @@ import { cookies } from "next/headers";
 import { type Cookie } from "lucia";
 
 import { validateRequest } from "./lucia";
-import { UsernameAndPassword, authenticationSchema } from "../db/schema/auth";
+import {
+  RegistrationSchema,
+  UsernameAndPassword,
+  authenticationSchema,
+  registrationSchema,
+} from "../db/schema/auth";
 
 export type AuthSession = {
   session: {
@@ -13,9 +18,12 @@ export type AuthSession = {
       name?: string;
       email?: string;
       username?: string;
+      avatarUrl?: string;
+      role?: "admin" | "supporter" | "user";
     };
   } | null;
 };
+
 export const getUserAuth = async (): Promise<AuthSession> => {
   const { session, user } = await validateRequest();
   if (!session) return { session: null };
@@ -25,6 +33,8 @@ export const getUserAuth = async (): Promise<AuthSession> => {
         id: user.id,
         email: user.email,
         name: user.name,
+        avatarUrl: user.avatarUrl,
+        role: user.role,
       },
     },
   };
@@ -57,6 +67,26 @@ export const validateAuthFormData = (
   const email = formData.get("email");
   const password = formData.get("password");
   const result = authenticationSchema.safeParse({ email, password });
+
+  if (!result.success) {
+    return {
+      data: null,
+      error: getErrorMessage(result.error.flatten().fieldErrors),
+    };
+  }
+
+  return { data: result.data, error: null };
+};
+
+export const validateRegistrationFormData = (
+  formData: FormData
+):
+  | { data: RegistrationSchema; error: null }
+  | { data: null; error: string } => {
+  const name = formData.get("name");
+  const email = formData.get("email");
+  const password = formData.get("password");
+  const result = registrationSchema.safeParse({ name, email, password });
 
   if (!result.success) {
     return {

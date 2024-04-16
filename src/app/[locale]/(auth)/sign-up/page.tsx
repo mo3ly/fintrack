@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+// import { Link } from "next-view-transitions";
 import { useFormState } from "react-dom";
 import { useFormStatus } from "react-dom";
 
@@ -10,6 +11,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import AuthFormError from "@/components/auth/AuthFormError";
+import { Icons } from "@/components/icons/icons";
 
 export default function SignUpPage() {
   const [state, formAction] = useFormState(signUpAction, {
@@ -21,6 +23,11 @@ export default function SignUpPage() {
       <h1 className="text-2xl font-bold text-center">إنشاء حساب</h1>
       <AuthFormError state={state} />
       <form action={formAction}>
+        <Label htmlFor="name" className="text-muted-foreground">
+          الاسم
+        </Label>
+        <Input name="name" type="name" id="name" required />
+        <br />
         <Label htmlFor="email" className="text-muted-foreground">
           البريد الإلكتروني
         </Label>
@@ -33,6 +40,13 @@ export default function SignUpPage() {
         <br />
         <SubmitButton />
       </form>
+      <div className="mt-4 text-sm text-center text-muted-foreground">
+        <Link href="/sign-in/google">
+          <Button variant={"secondary"} className="w-full">
+            <Icons.Google className="h-4 w-4 me-2" /> Continue with Google
+          </Button>
+        </Link>
+      </div>
       <div className="mt-4 text-muted-foreground text-center text-sm">
         هل لديك حساب بالفعل؟{" "}
         <Link href="/sign-in" className="text-secondary-foreground underline">

@@ -9,7 +9,7 @@ export default async function Home() {
   const { session } = await getUserAuth();
   return (
     <main className="">
-      <h1 className="text-2xl font-semibold my-2">لوحة التحكم</h1>
+      <h1 className="text-2xl font-semibold mb-2">لوحة التحكم</h1>
       {/* <pre className="bg-secondary p-4 rounded-lg my-2">
         {JSON.stringify(session, null, 2)}
       </pre> */}
@@ -25,7 +25,7 @@ export default async function Home() {
           </TabsTrigger>
         </TabsList>
       </Tabs>
-      <div className="animate-in fade-in-5 slide-in-from-bottom-2">
+      <div className="animate-in fade-in-5 slide-in-from-bottom-2  tour-step-2">
         <div className="flex space-s-2 md:grid md:gap-4 md:grid-cols-3 w-full overflow-x-auto">
           <StatsCard
             revenue="٠ معاملة"
@@ -56,7 +56,7 @@ export default async function Home() {
         </div>
 
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-8 my-4">
-          <Card className="col-span-4">
+          <Card className="col-span-4  tour-step-3">
             <CardHeader>
               <CardTitle>احصائيات</CardTitle>
             </CardHeader>

@@ -8,6 +8,7 @@ import { checkAuth } from "@/lib/auth/utils";
 
 import { BackButton } from "@/components/shared/BackButton";
 import Loading from "@/app/[locale]/(app)/settings/loading";
+import { BasicUploader } from "@/app/[locale]/(app)/transactions/[transactionId]/_components/BasicUploader";
 
 export const revalidate = 0;
 
@@ -37,6 +38,9 @@ const Transaction = async ({ id }: { id: string }) => {
           transaction={transaction}
           categories={categories}
         />
+        <div className="mt-6">
+          <BasicUploader />
+        </div>
       </div>
     </Suspense>
   );

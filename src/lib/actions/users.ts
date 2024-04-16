@@ -14,8 +14,10 @@ import {
   setAuthCookie,
   validateAuthFormData,
   getUserAuth,
+  validateRegistrationFormData,
 } from "../auth/utils";
 import { users, updateUserSchema } from "../db/schema/auth";
+import { DEFAULT_CURRENCY } from "@/constant/config";
 
 interface ActionResult {
   error: string;
@@ -36,6 +38,14 @@ export async function signInAction(
     if (!existingUser) {
       return {
         error: "البريد الإلكتروني وكلمة المرور غير صالحين",
+      };
+    }
+
+    // special cased created for users with oauth
+    if (!existingUser.hashedPassword) {
+      return {
+        error:
+          "It looks like you've previously signed in with Google. Please use Google Sign-In to continue.",
       };
     }
 
@@ -63,7 +73,7 @@ export async function signUpAction(
   _: ActionResult,
   formData: FormData
 ): Promise<ActionResult> {
-  const { data, error } = validateAuthFormData(formData);
+  const { data, error } = validateRegistrationFormData(formData);
 
   if (error !== null) return { error };
 
@@ -74,9 +84,20 @@ export async function signUpAction(
     await db.insert(users).values({
       id: userId,
       email: data.email,
+      name: data.name,
+      currency: DEFAULT_CURRENCY,
       hashedPassword,
     });
   } catch (e) {
+    if (typeof e === "object" && e !== null && "code" in e) {
+      const error = e as { code: string };
+      if (error.code === "SQLITE_CONSTRAINT") {
+        return {
+          error:
+            "The email address is already in use. Please use a different email or log in to your existing account.",
+        };
+      }
+    }
     return genericError;
   }
 

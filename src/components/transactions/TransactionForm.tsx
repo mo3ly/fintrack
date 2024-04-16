@@ -43,6 +43,9 @@ import {
 import { type Category, type CategoryId } from "@/lib/db/schema/categories";
 import { Textarea } from "@/components/ui/textarea";
 
+// import Link from "next/link";
+import { Link } from "next-view-transitions";
+
 const TransactionForm = ({
   categories,
   categoryId,
@@ -168,7 +171,7 @@ const TransactionForm = ({
                 "mb-2 inline-block",
                 errors?.categoryId ? "text-destructive" : ""
               )}>
-              الفئة
+              التصنيف
             </Label>
             <Select defaultValue={transaction?.categoryId} name="categoryId">
               <SelectTrigger
@@ -176,9 +179,19 @@ const TransactionForm = ({
                   errors?.categoryId ? "ring ring-destructive" : "",
                   "rtl-grid text-start bg-background"
                 )}>
-                <SelectValue placeholder="اختر فئة" />
+                <SelectValue placeholder="حدد التصنيف" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="rtl-grid">
+                {categories?.length == 0 && (
+                  <div className="text-sm px-2">
+                    لا يوجد تصنيفات قم بإضافة تصنيف{" "}
+                    <Link href={"categories"}>
+                      <Button variant={"secondary"} size={"icon"} className="">
+                        +
+                      </Button>
+                    </Link>
+                  </div>
+                )}
                 {categories?.map((category) => (
                   <SelectItem
                     key={category.id}

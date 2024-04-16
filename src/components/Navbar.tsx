@@ -1,6 +1,7 @@
 "use client";
 
-import Link from "next/link";
+// import Link from "next/link";
+import { Link } from "next-view-transitions";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 
@@ -31,7 +32,10 @@ export default function Navbar() {
           </div>
         </Link>
         <div></div>
-        <Button variant="ghost" onClick={() => setOpen(!open)}>
+        <Button
+          className="tour-step-mobile-1"
+          variant="ghost"
+          onClick={() => setOpen(!open)}>
           <AlignRight />
         </Button>
       </nav>
@@ -58,7 +62,7 @@ export default function Navbar() {
             ))}
             <div className="flex items-center space-s-2">
               <SignOutBtn />
-              <LanguageSwitcher />
+              <LanguageSwitcher className="w-[120px]" />
             </div>
           </ul>
         </div>
