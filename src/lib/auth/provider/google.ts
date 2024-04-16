@@ -19,7 +19,7 @@ const baseUrl = getBaseUrl();
 const google = new Google(
   env.GOOGLE_ID,
   env.GOOGLE_SECRET,
-  `${baseUrl}/api/login/google/callback`
+  `${process.env.NEXT_PUBLIC_APP_URL}/api/login/google/callback`
 );
 
 // add rate limited for it
