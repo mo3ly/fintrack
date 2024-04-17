@@ -7,6 +7,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { AuthSession, getUserAuth } from "@/lib/auth/utils";
 import { siteConfig } from "@/constant/config";
 import SignOutBtn from "@/components/auth/SignOutBtn";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import SidebarLogo from "@/components/SidebarLogo";
+import { ModeToggle } from "@/components/ui/ThemeToggle";
 
 const Sidebar = async () => {
   const session = await getUserAuth();
@@ -16,14 +19,15 @@ const Sidebar = async () => {
     <aside className="h-screen min-w-52 bg-primary-green text-black sticky top-0 hidden md:block p-4 pt-8 ">
       <div className="flex flex-col justify-between h-full">
         <div className="space-y-4 tour-step-1">
-          <Link href={"/dashboard"}>
-            <h3 className="text-2xl font-semibold ms-4">
-              {siteConfig.titleAr}
-            </h3>
-          </Link>
+          <div className="flex items-center justify-between"></div>
+          <SidebarLogo />
           <SidebarItems />
         </div>
         <div className="w-full">
+          <div className="flex items-center justify-between mb-1">
+            <LanguageSwitcher className="text-xs bg-transparent border-0 md:flex hidden w-[90px] rounded-none px-2" />
+            <ModeToggle />
+          </div>
           <UserDetails session={session} />
         </div>
       </div>

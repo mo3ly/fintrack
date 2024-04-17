@@ -15,9 +15,12 @@ import AuthFormError from "@/components/auth/AuthFormError";
 import { Icons } from "@/components/icons/icons";
 import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
+import { useScopedI18n } from "@/locales/client";
 
 export default function SignInPage() {
   const searchParams = useSearchParams();
+  const t = useScopedI18n("auth");
+
   const [state, formAction] = useFormState(signInAction, {
     error: "",
   });
@@ -28,50 +31,48 @@ export default function SignInPage() {
   const hasToastBeenShown = useRef(false);
   useEffect(() => {
     if (accountExists === "account_exists" && !hasToastBeenShown.current) {
-      toast.error(
-        "An account with this email already exists. Please log in using email and password."
-      );
-      hasToastBeenShown.current = true; // Prevent future toasts
+      toast.error(t("accountExistsError"));
+      hasToastBeenShown.current = true;
     }
   }, [accountExists]);
 
   return (
     <main className="max-w-lg mx-auto my-4 bg-background md:rounded-lg p-10 duration-500 animate-in fade-in-5 slide-in-from-bottom-2">
-      <h1 className="text-2xl font-bold text-center">تسجيل الدخول إلى حسابك</h1>
+      <h1 className="text-2xl font-bold text-center">{t("loginTitle")}</h1>
       <AuthFormError state={state} />
       <form action={formAction}>
         <Label htmlFor="email" className="text-muted-foreground">
-          البريد الإلكتروني
+          {t("emailLabel")}
         </Label>
         <Input name="email" id="email" type="email" required value={email!} />
         <br />
         <Label htmlFor="password" className="text-muted-foreground">
-          كلمة المرور
+          {t("passwordLabel")}
         </Label>
         <Input type="password" name="password" id="password" required />
         <br />
-        <SubmitButton />
+        <SubmitButton label={t("submitButton")} />
       </form>
       <div className="mt-4 text-sm text-center text-muted-foreground">
         <Link href="/sign-in/google">
           <Button variant={"secondary"} className="w-full">
-            <Icons.Google className="h-4 w-4 me-2" /> Continue with Google
+            <Icons.Google className="h-4 w-4 me-2" /> {t("continueWithGoogle")}
           </Button>
         </Link>
       </div>
       <div className="mt-4 text-sm text-center text-muted-foreground">
-        ليس لديك حساب بعد؟{" "}
+        {t("noAccountYet")}{" "}
         <Link
           href="/sign-up"
           className="text-accent-foreground underline hover:text-primary">
-          إنشاء حساب
+          {t("createAccount")}
         </Link>
       </div>
     </main>
   );
 }
 
-const SubmitButton = () => {
+const SubmitButton = ({ label }: { label: string }) => {
   const { pending } = useFormStatus();
   return (
     <Button
@@ -102,7 +103,7 @@ const SubmitButton = () => {
           </svg>
         </>
       ) : (
-        "تسجيل الدخول "
+        <>{label}</>
       )}
       <span aria-live="polite" className="sr-only" role="status">
         {pending ? "Loading" : "Submit form"}

@@ -12,52 +12,54 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import AuthFormError from "@/components/auth/AuthFormError";
 import { Icons } from "@/components/icons/icons";
+import { useScopedI18n } from "@/locales/client";
 
 export default function SignUpPage() {
+  const t = useScopedI18n("auth");
   const [state, formAction] = useFormState(signUpAction, {
     error: "",
   });
 
   return (
     <main className="max-w-lg w-full mx-auto my-4 bg-background md:rounded-lg p-10 duration-500 animate-in fade-in-5 slide-in-from-bottom-2">
-      <h1 className="text-2xl font-bold text-center">إنشاء حساب</h1>
+      <h1 className="text-2xl font-bold text-center">{t("createAccount")}</h1>
       <AuthFormError state={state} />
       <form action={formAction}>
         <Label htmlFor="name" className="text-muted-foreground">
-          الاسم
+          {t("nameLabel")}
         </Label>
         <Input name="name" type="name" id="name" required />
         <br />
         <Label htmlFor="email" className="text-muted-foreground">
-          البريد الإلكتروني
+          {t("emailLabel")}
         </Label>
         <Input name="email" type="email" id="email" required />
         <br />
         <Label htmlFor="password" className="text-muted-foreground">
-          كلمة المرور
+          {t("passwordLabel")}
         </Label>
         <Input type="password" name="password" id="password" required />
         <br />
-        <SubmitButton />
+        <SubmitButton label={t("createAccountButton")} />
       </form>
       <div className="mt-4 text-sm text-center text-muted-foreground">
         <Link href="/sign-in/google">
           <Button variant={"secondary"} className="w-full">
-            <Icons.Google className="h-4 w-4 me-2" /> Continue with Google
+            <Icons.Google className="h-4 w-4 me-2" /> {t("continueWithGoogle")}
           </Button>
         </Link>
       </div>
-      <div className="mt-4 text-muted-foreground text-center text-sm">
-        هل لديك حساب بالفعل؟{" "}
+      <div className="mt-4 text-sm text-center text-muted-foreground">
+        {t("alreadyHaveAccount")}{" "}
         <Link href="/sign-in" className="text-secondary-foreground underline">
-          تسجيل الدخول
+          {t("login")}
         </Link>
       </div>
     </main>
   );
 }
 
-const SubmitButton = () => {
+const SubmitButton = ({ label }: { label: string }) => {
   const { pending } = useFormStatus();
   return (
     <Button
@@ -88,7 +90,7 @@ const SubmitButton = () => {
           </svg>
         </>
       ) : (
-        "إنشاء الحساب"
+        <>{label}</>
       )}
       <span aria-live="polite" className="sr-only" role="status">
         {pending ? "Loading" : "Submit form"}

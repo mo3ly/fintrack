@@ -27,6 +27,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import StatsCard from "@/app/[locale]/(app)/dashboard/_components/StatsCard";
 import { useIsRTL } from "@/lib/hooks/useIsRTL";
+import { useScopedI18n } from "@/locales/client";
 
 type TOpenModal = (transaction?: Transaction) => void;
 
@@ -71,12 +72,16 @@ export default function TransactionList({
 
   const netIncome = totalRevenues - totalExpenses;
 
+  const t = useScopedI18n("transactions");
+
   return (
     <div>
       <Modal
         open={open}
         setOpen={setOpen}
-        title={activeTransaction ? "تعديل العملية" : "إنشاء عملية"}>
+        title={
+          activeTransaction ? t("editTransaction") : t("createTransaction")
+        }>
         <TransactionForm
           transaction={activeTransaction}
           addOptimistic={addOptimisticTransaction}
@@ -89,7 +94,7 @@ export default function TransactionList({
       </Modal>
       <div className="absolute end-0 top-0 ">
         <Button onClick={() => openModal()} variant={"secondary"}>
-          <Plus className="h-4 w-4 me-1 " /> معاملة جديدة
+          <Plus className="h-4 w-4 me-1" /> {t("newTransaction")}
         </Button>
       </div>
       {optimisticTransactions.length === 0 ? (
@@ -101,19 +106,19 @@ export default function TransactionList({
             <StatsCard
               revenue={formatCurrency(totalRevenues, currency, isRTL)}
               change=""
-              title="إجمالي الإيرادات"
+              title={t("totalRevenues")}
               className="bg-green-200 border-green-100 dark:border-green-800  text-black"
             />
             <StatsCard
               revenue={formatCurrency(totalExpenses, currency, isRTL)}
               change=""
-              title="إجمالي المصروفات"
+              title={t("totalExpenses")}
               className="bg-red-200 border-red-100 dark:border-red-800  text-black"
             />
             <StatsCard
               revenue={formatCurrency(netIncome, currency, isRTL)}
               change=""
-              title="الدخل الصافي"
+              title={t("netIncome")}
               className="bg-yellow-200 border-yellow-100 dark:border-yellow-800  text-black"
             />
           </div>
@@ -212,18 +217,20 @@ const Transaction = ({
   );
 };
 
-const EmptyState = ({ openModal }: { openModal: TOpenModal }) => {
+const EmptyState = ({ openModal }: { openModal: () => void }) => {
+  const t = useScopedI18n("transactions");
+
   return (
     <div className="text-center">
       <h3 className="mt-2 text-sm font-semibold text-secondary-foreground">
-        لا توجد معاملات
+        {t("noTransactions")}
       </h3>
       <p className="mt-1 text-sm text-muted-foreground">
-        ابدأ بإنشاء معاملة جديدة.
+        {t("startCreatingTransaction")}
       </p>
       <div className="mt-6">
-        <Button onClick={() => openModal()}>
-          <PlusIcon className="h-4" /> معاملات جديدة
+        <Button onClick={openModal}>
+          <PlusIcon className="h-4" /> {t("newTransaction")}
         </Button>
       </div>
     </div>

@@ -13,9 +13,9 @@ export function AccountCard({ params, children }: AccountCardProps) {
   const { header, description } = params;
   return (
     <Card>
-      <div id="body" className="p-4 ">
-        <h3 className="text-xl font-semibold">{header}</h3>
-        <p className="text-muted-foreground">{description}</p>
+      <div id="body" className="px-4 pt-4">
+        <h3 className="text-lg font-semibold">{header}</h3>
+        <p className="text-muted-foreground text-sm">{description}</p>
       </div>
       {children}
     </Card>
@@ -35,7 +35,7 @@ export function AccountCardFooter({
 }) {
   return (
     <div
-      className="bg-muted p-4 border dark:bg-card flex justify-between items-center rounded-b-lg"
+      className="bg-secondary px-4 py-3 border dark:bg-card flex justify-between items-center rounded-b-lg"
       id="footer">
       <p className="text-muted-foreground text-sm">{description}</p>
       {children}

@@ -1,6 +1,7 @@
 "use client";
 import { useIsRTL } from "@/lib/hooks/useIsRTL";
 import { formatCurrency } from "@/lib/utils";
+import { useScopedI18n } from "@/locales/client";
 import {
   PieChart,
   Pie,
@@ -27,11 +28,13 @@ const RevenueExpensesChart: React.FC<RevenueExpensesChartProps> = ({
   totalExpenses,
   currency,
 }) => {
-  const data: ChartData[] = [
-    { name: "Revenues", value: totalRevenues, color: "#13f999" },
-    { name: "Expenses", value: totalExpenses, color: "#eb133b" },
-  ];
   const isRTL = useIsRTL();
+  const t = useScopedI18n("common");
+  const data: ChartData[] = [
+    { name: t("revenues"), value: totalRevenues ?? 0, color: "#13f999" },
+    { name: t("expenses"), value: totalExpenses ?? 0, color: "#eb133b" },
+  ];
+
   return (
     <ResponsiveContainer width="100%" height={300}>
       <PieChart>
@@ -40,11 +43,16 @@ const RevenueExpensesChart: React.FC<RevenueExpensesChartProps> = ({
           labelLine={false}
           label={({ name, percent }) => `${(percent * 100).toFixed(0)}%`}
           outerRadius={100}
+          innerRadius={60}
           stroke="1"
-          // fill="#8884d8"
+          fill="#000"
           dataKey="value">
           {data.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={entry.color} />
+            <Cell
+              style={{ outline: "none" }}
+              key={`cell-${index}`}
+              fill={entry.color}
+            />
           ))}
         </Pie>
         <Tooltip

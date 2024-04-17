@@ -1,19 +1,21 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { useScopedI18n } from "@/locales/client";
 import { useTheme } from "next-themes";
 
 import * as React from "react";
 
 export default function ModeToggle() {
   const { setTheme } = useTheme();
+  const t = useScopedI18n("settings");
+
   return (
     <div>
       <div className="mb-2">
-        <h3 className="text-lg font-medium">المظهر</h3>
+        <h3 className="text-lg font-medium">{t("appearance")}</h3>
         <p className="text-sm text-muted-foreground">
-          قم بتخصيص مظهر التطبيق. التبديل التلقائي بين النماذج النهارية
-          والليلية.
+          {t("customizeAppearance")}
         </p>
       </div>
       <Button
@@ -38,7 +40,9 @@ export default function ModeToggle() {
               </div>
             </div>
           </div>
-          <span className="block w-full p-2 text-center font-normal">فاتح</span>
+          <span className="block w-full p-2 text-center font-normal">
+            {t("light")}
+          </span>
         </div>
       </Button>
       <Button
@@ -63,7 +67,9 @@ export default function ModeToggle() {
               </div>
             </div>
           </div>
-          <span className="block w-full p-2 text-center font-normal">داكن</span>
+          <span className="block w-full p-2 text-center font-normal">
+            {t("dark")}
+          </span>
         </div>
       </Button>
       <Button
@@ -89,7 +95,7 @@ export default function ModeToggle() {
             </div>
           </div>
           <span className="block w-full p-2 text-center font-normal">
-            النظام
+            {t("system")}
           </span>
         </div>
       </Button>

@@ -5,14 +5,14 @@ import { useState } from "react";
 import { Link } from "next-view-transitions";
 import { usePathname } from "next/navigation";
 
-import { cn } from "@/lib/utils";
 import { type Category, CompleteCategory } from "@/lib/db/schema/categories";
 import Modal from "@/components/shared/Modal";
 
 import { useOptimisticCategories } from "@/app/[locale]/(app)/categories/useOptimisticCategories";
 import { Button } from "@/components/ui/button";
 import CategoryForm from "./CategoryForm";
-import { Eye, Plus, PlusIcon } from "lucide-react";
+import { Eye, PlusIcon } from "lucide-react";
+import { useScopedI18n } from "@/locales/client";
 
 type TOpenModal = (category?: Category) => void;
 
@@ -21,11 +21,15 @@ export default function CategoryList({
 }: {
   categories: CompleteCategory[];
 }) {
+  const t = useScopedI18n("categories");
   const { optimisticCategories, addOptimisticCategory } =
     useOptimisticCategories(categories);
   const [open, setOpen] = useState(false);
-  const [activeCategory, setActiveCategory] = useState<Category | null>(null);
-  const openModal = (category?: Category) => {
+  const [activeCategory, setActiveCategory] = useState<CompleteCategory | null>(
+    null
+  );
+
+  const openModal = (category?: CompleteCategory) => {
     setOpen(true);
     category ? setActiveCategory(category) : setActiveCategory(null);
   };
@@ -36,17 +40,16 @@ export default function CategoryList({
       <Modal
         open={open}
         setOpen={setOpen}
-        title={activeCategory ? "تعديل التصنيف" : "إنشاء تصنيف"}>
+        title={activeCategory ? t("editCategory") : t("createCategory")}>
         <CategoryForm
           category={activeCategory}
           addOptimistic={addOptimisticCategory}
-          openModal={openModal}
           closeModal={closeModal}
         />
       </Modal>
-      <div className="absolute end-0 top-0 ">
-        <Button onClick={() => openModal()} variant={"secondary"}>
-          <Plus className="h-4 w-4 me-1" /> تصنيف جديد
+      <div className="absolute end-0 top-0">
+        <Button onClick={() => openModal()} variant="secondary">
+          <PlusIcon className="h-4 w-4 me-1" /> {t("newCategory")}
         </Button>
       </div>
       {optimisticCategories.length === 0 ? (
@@ -80,38 +83,38 @@ const Category = ({
   const basePath = pathname.includes("categories")
     ? pathname
     : pathname + "/categories/";
+  const t = useScopedI18n("categories");
 
   return (
     <li
-      className={cn(
-        "flex justify-between items-center my-2 border px-3 py-2 rounded-lg ",
-        mutating ? "opacity-30 animate-pulse" : "",
-        deleting ? "text-destructive" : ""
-      )}>
+      className={`flex justify-between items-center my-2 border px-3 py-2 rounded-lg ${
+        mutating ? "opacity-30 animate-pulse" : ""
+      } ${deleting ? "text-destructive" : ""}`}>
       <div className="w-full">
         <div>{category.name}</div>
       </div>
-      <Button className="px-1" variant={"link"} asChild>
-        <Link href={basePath + "/" + category.id}>
-          معاينة <Eye className="ms-1 h-4 w-4" />
+      <Button className="px-1" variant="link" asChild>
+        <Link href={`${basePath}/${category.id}`}>
+          {t("preview")} <Eye className="ms-1 h-4 w-4" />
         </Link>
       </Button>
     </li>
   );
 };
 
-const EmptyState = ({ openModal }: { openModal: TOpenModal }) => {
+const EmptyState = ({ openModal }: { openModal: () => void }) => {
+  const t = useScopedI18n("categories");
   return (
     <div className="text-center">
       <h3 className="mt-2 text-sm font-semibold text-secondary-foreground">
-        لا توجد تصنيفات
+        {t("noCategories")}
       </h3>
       <p className="mt-1 text-sm text-muted-foreground">
-        ابدأ بإنشاء تصنيف جديد.
+        {t("startCreatingCategories")}
       </p>
       <div className="mt-6">
-        <Button onClick={() => openModal()}>
-          <PlusIcon className="h-4" /> تصنيفات جديدة{" "}
+        <Button onClick={openModal}>
+          <PlusIcon className="h-4" /> {t("newCategory")}
         </Button>
       </div>
     </div>

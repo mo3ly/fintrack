@@ -36,7 +36,8 @@ const Category = async ({ id }: { id: string }) => {
       </div>
       <div className="relative mt-8 ">
         <h3 className="text-xl font-medium mb-4">
-          المعاملات الخاصة ب {category.name}
+          <span className="ltr:hidden">المعاملات الخاصة بالتصنيف</span>
+          <span className="rtl:hidden">Related Transactions</span>
         </h3>
         <TransactionList
           categories={[]}

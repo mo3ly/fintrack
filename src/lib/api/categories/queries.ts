@@ -51,7 +51,8 @@ export const getCategoryByIdWithTransactions = async (id: CategoryId) => {
         eq(categories.userId, session?.user.id!)
       )
     )
-    .leftJoin(transactions, eq(categories.id, transactions.categoryId));
+    .leftJoin(transactions, eq(categories.id, transactions.categoryId))
+    .orderBy(desc(transactions.createdAt));
   if (rows.length === 0) return {};
   const c = rows[0].category;
   const ct = rows

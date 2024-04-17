@@ -3,6 +3,7 @@
 import { Button } from "../ui/button";
 import { useFormStatus } from "react-dom";
 import { signOutAction } from "@/lib/actions/users";
+import { useScopedI18n } from "@/locales/client";
 
 export default function SignOutBtn() {
   return (
@@ -13,6 +14,7 @@ export default function SignOutBtn() {
 }
 
 const Btn = () => {
+  const t = useScopedI18n("auth");
   const { pending } = useFormStatus();
   return (
     <Button
@@ -43,7 +45,7 @@ const Btn = () => {
           </svg>
         </>
       ) : (
-        "تسجيل الخروج"
+        <>{t("signout")}</>
       )}
       <span aria-live="polite" className="sr-only" role="status">
         {pending ? "Loading" : "Submit form"}

@@ -6,9 +6,12 @@ import { siteConfig } from "@/constant/config";
 import { useIsRTL } from "@/lib/hooks/useIsRTL";
 
 import Link from "next/link";
+import { useScopedI18n } from "@/locales/client";
 
 export default function Header() {
   const isRTL = useIsRTL();
+
+  const t = useScopedI18n("landing");
 
   return (
     <>
@@ -20,9 +23,7 @@ export default function Header() {
           {isRTL ? siteConfig.descriptionAr : siteConfig.description}
         </div>
         <Link href={"/sign-in"} className="mt-8">
-          <Button size={"lg"}>
-            {isRTL ? "سجل وابدأ الآن!" : "Let's start!"}
-          </Button>
+          <Button size={"lg"}>{t("CTA")}</Button>
         </Link>
       </div>
       <div className="fixed bottom-4">

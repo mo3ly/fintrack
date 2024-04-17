@@ -83,6 +83,13 @@
   direction: ltr;
 }
 
+[dir="rtl"] .dir-grid {
+  direction: rtl;
+}
+[dir="ltr"] .dir-grid {
+  direction: ltr;
+}
+
 /* https://stackoverflow.com/questions/54646939/why-is-my-positionsticky-not-working-on-ios */
 /* body,
 html {

@@ -15,19 +15,19 @@ const JoyrideTour = () => {
   const steps = [
     {
       target: ".tour-step-1",
-      content: "This is the dashboard!",
+      content: "Navigate between pages!",
     },
     {
       target: ".tour-step-mobile-1",
-      content: "This is the dashboard!",
+      content: "Navigate between pages!",
     },
     {
       target: ".tour-step-2",
-      content: "This is the second step!",
+      content: "Here is your summary!",
     },
     {
       target: ".tour-step-3",
-      content: "This is the third step!",
+      content: "Create a new caregory, then a transaction!",
     },
   ];
 

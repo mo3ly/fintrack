@@ -6,6 +6,7 @@ import TrpcProvider from "@/lib/trpc/Provider";
 import { cookies } from "next/headers";
 import NextTopLoader from "nextjs-toploader";
 import JoyrideTour from "@/components/JoyrideTour";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 
 export default async function AppLayout({
   children,

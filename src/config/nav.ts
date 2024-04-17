@@ -7,19 +7,26 @@ type AdditionalLinks = {
 };
 
 export const defaultLinks: SidebarLink[] = [
-  { href: "/dashboard", title: "لوحة التحكم", icon: Home },
+  {
+    href: "/dashboard",
+    titleAr: "لوحة التحكم",
+    titleEn: "Dashboard",
+    icon: Home,
+  },
   {
     href: "/transactions",
-    title: "المعاملات",
+    titleAr: "المعاملات",
+    titleEn: "Transactions",
     icon: ArrowLeftRight,
   },
   {
     href: "/categories",
-    title: "التصنيفات",
+    titleAr: "التصنيفات",
+    titleEn: "Categories",
     icon: Tag,
   },
-  { href: "/account", title: "الحساب", icon: User },
-  { href: "/settings", title: "الإعدادات", icon: Cog },
+  { href: "/account", titleAr: "الحساب", titleEn: "Account", icon: User },
+  { href: "/settings", titleAr: "الإعدادات", titleEn: "Settings", icon: Cog },
 ];
 
 export const additionalLinks: AdditionalLinks[] = [

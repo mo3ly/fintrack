@@ -176,7 +176,7 @@ const TransactionForm = ({
             placeholder="0.00"
             defaultValue={transaction?.amount ?? ""}
             className={cn(
-              "outline-none bg-secondary/50 w-full",
+              "outline-none bg-secondary/50 w-full px-2 rounded",
               errors?.amount && "border-b border-destructive text-destructive"
             )}
           />

@@ -23,6 +23,8 @@ import {
   deleteCategoryAction,
   updateCategoryAction,
 } from "@/lib/actions/categories";
+import { useScopedI18n } from "@/locales/client";
+import { Loader, Save } from "lucide-react";
 
 const CategoryForm = ({
   category,
@@ -48,6 +50,8 @@ const CategoryForm = ({
   const router = useRouter();
   const backpath = useBackPath("categories");
 
+  const t = useScopedI18n("categories");
+
   const onSuccess = (
     action: Action,
     data?: { error: string; values: Category }
@@ -55,13 +59,13 @@ const CategoryForm = ({
     const failed = Boolean(data?.error);
     if (failed) {
       openModal && openModal(data?.values);
-      toast.error(`Failed to ${action}`, {
-        description: data?.error ?? "Error",
+      toast.error(t(`${action}Failed`), {
+        description: data?.error ?? t("genericError"),
       });
     } else {
       router.refresh();
+      toast.success(t(`${action}Success`));
       postSuccess && postSuccess();
-      toast.success(`Category ${action}d!`);
       if (action === "delete") router.push(backpath);
     }
   };
@@ -128,7 +132,7 @@ const CategoryForm = ({
             "mb-2 inline-block",
             errors?.name ? "text-destructive" : ""
           )}>
-          الاسم
+          {t("name")}
         </Label>
         <Input
           type="text"
@@ -169,7 +173,7 @@ const CategoryForm = ({
               onSuccess("delete", error ? errorFormatted : undefined);
             });
           }}>
-          {isDeleting ? "جارٍ الحذف..." : "حذف"}
+          {t(isDeleting ? "deleting" : "delete")}
         </Button>
       ) : null}
     </form>
@@ -188,19 +192,26 @@ const SaveButton = ({
   const { pending } = useFormStatus();
   const isCreating = pending && editing === false;
   const isUpdating = pending && editing === true;
+  const t = useScopedI18n("categories");
+
   return (
     <Button
       type="submit"
       className="me-2"
       disabled={isCreating || isUpdating || errors}
       aria-disabled={isCreating || isUpdating || errors}>
+      {isUpdating || isCreating ? (
+        <Loader className="me-1 h-4 w-4 animate-spin" />
+      ) : (
+        <Save className="me-1 h-4 w-4" />
+      )}
       {editing
         ? isUpdating
-          ? "جاري الحفظ..."
-          : "حفظ"
+          ? t("updating")
+          : t("update")
         : isCreating
-        ? "جاري الإنشاء..."
-        : "إنشاء"}
+        ? t("creating")
+        : t("create")}
     </Button>
   );
 };

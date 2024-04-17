@@ -10,29 +10,30 @@ import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loader, Save } from "lucide-react";
+import { useScopedI18n } from "@/locales/client";
 
 export default function UpdateEmailCard({ email }: { email: string }) {
+  const t = useScopedI18n("account");
   const [state, formAction] = useFormState(updateUser, {
     error: "",
   });
 
   useEffect(() => {
-    if (state.success == true) toast.success("تم تحديث البريد الإلكتروني");
-    if (state.error) toast.error("خطأ", { description: state.error });
+    if (state.success) toast.success(t("emailUpdated"));
+    if (state.error) toast.error(t("error"), { description: state.error });
   }, [state]);
 
   return (
     <AccountCard
       params={{
-        header: "بريدك الإلكتروني",
-        description:
-          "الرجاء إدخال عنوان البريد الإلكتروني الذي ترغب في استخدامه مع حسابك.",
+        header: t("yourEmail"),
+        description: t("enterEmailDescription"),
       }}>
       <form action={formAction}>
         <AccountCardBody>
           <Input defaultValue={email ?? ""} name="email" />
         </AccountCardBody>
-        <AccountCardFooter description="سنرسل إليك بريدًا إلكترونيًا للتحقق من التغيير.">
+        <AccountCardFooter description={t("verificationEmailSent")}>
           <Submit />
         </AccountCardFooter>
       </form>
@@ -41,6 +42,7 @@ export default function UpdateEmailCard({ email }: { email: string }) {
 }
 
 const Submit = () => {
+  const t = useScopedI18n("account");
   const { pending } = useFormStatus();
   return (
     <Button disabled={pending}>
@@ -49,7 +51,7 @@ const Submit = () => {
       ) : (
         <Save className="me-1 h-4 w-4" />
       )}
-      حفظ
+      {t("save")}
     </Button>
   );
 };

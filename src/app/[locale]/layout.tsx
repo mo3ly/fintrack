@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Sans_Arabic } from "next/font/google";
-import "@/styles/globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { siteConfig } from "@/constant/config";
 import { getLocaleDirection } from "@/lib/utils";
 import { ReactElement } from "react";
 import { TailwindIndicator } from "@/components/TailwindIndicator";
 import { ViewTransitions } from "next-view-transitions";
+import { I18nProviderClient } from "@/locales/client";
+import "@/styles/globals.css";
 
 const IBM = IBM_Plex_Sans_Arabic({
   subsets: ["arabic"],
@@ -76,14 +77,16 @@ export default function RootLayout({
         </head>
         <body
           className={`${IBM.className} bg-background selection:bg-neutral-200 dark:selection:bg-neutral-600`}>
-          <TailwindIndicator />
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange>
-            {children}
-          </ThemeProvider>
+          <I18nProviderClient locale={locale}>
+            <TailwindIndicator />
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange>
+              {children}
+            </ThemeProvider>
+          </I18nProviderClient>
         </body>
       </html>
     </ViewTransitions>

@@ -36,7 +36,7 @@ import { formatCurrency, formatDate } from "@/lib/utils";
 import { useIsRTL } from "@/lib/hooks/useIsRTL";
 import { useRouter } from "next/navigation";
 import { EmptyCard } from "@/components/EmptyCard";
-
+import { useScopedI18n } from "@/locales/client";
 export default function FinanceTransactions({
   transactions,
   currency,
@@ -46,18 +46,19 @@ export default function FinanceTransactions({
 }) {
   const isRTL = useIsRTL();
   const router = useRouter();
+  const t = useScopedI18n("finance");
 
   return (
     <Card className="col-span-4 overflow-x-auto">
       <CardHeader className="flex flex-row items-center">
         <div className="grid gap-2">
-          <CardTitle>المعاملات المالية</CardTitle>
-          <CardDescription>أحدث المعاملات المالية المسجلة.</CardDescription>
+          <CardTitle>{t("financialTransactions")}</CardTitle>
+          <CardDescription>{t("latestTransactionsRecorded")}</CardDescription>
         </div>
         {transactions.length > 0 && (
           <Button asChild size="sm" className="ms-auto gap-1">
             <Link href="/transactions">
-              عرض الكل
+              {t("viewAll")}
               <ArrowUpRight className="h-4 w-4" />
             </Link>
           </Button>
@@ -68,13 +69,13 @@ export default function FinanceTransactions({
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>العملية</TableHead>
-                <TableHead>المبلغ</TableHead>
-                <TableHead className="text-end">التاريخ</TableHead>
+                <TableHead>{t("operation")}</TableHead>
+                <TableHead>{t("amount")}</TableHead>
+                <TableHead className="text-end">{t("date")}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {transactions.map((transaction: any, index: any) => (
+              {transactions.map((transaction, index) => (
                 <TableRow
                   key={index}
                   className="cursor-pointer"
@@ -95,7 +96,7 @@ export default function FinanceTransactions({
                       {transaction.category && (
                         <Link href={`/categories/${transaction.category.id}`}>
                           <Badge className="text-xs me-2" variant="secondary">
-                            {transaction.category?.name}
+                            {transaction.category.name}
                           </Badge>
                         </Link>
                       )}
@@ -115,8 +116,8 @@ export default function FinanceTransactions({
         ) : (
           <EmptyCard
             className="py-7"
-            title="Ooops"
-            description="No recent transactions!"
+            title={t("noTransactions")}
+            description={t("noRecentTransactions")}
             icon={
               <ArrowLeftRight
                 className="size-8 text-muted-foreground"
@@ -125,8 +126,8 @@ export default function FinanceTransactions({
             }
             action={
               <Link href={"/transactions"}>
-                <Button>
-                  Create <Plus className="h-4 w-4 ms-1" />
+                <Button className="tour-step-3">
+                  {t("create")} <Plus className="h-4 w-4 ms-1" />
                 </Button>
               </Link>
             }

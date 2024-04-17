@@ -9,11 +9,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+import { useIsRTL } from "@/lib/hooks/useIsRTL";
 
 export function LanguageSwitcher({ className }: { className?: string }) {
   // Uncomment to preserve the search params. Don't forget to also uncomment the Suspense in the layout
   const changeLocale = useChangeLocale(/*{ preserveSearchParams: true }*/);
   const currentLocale = useCurrentLocale();
+  const isRTL = useIsRTL();
 
   const onChange = (value: "en" | "ar") => {
     changeLocale(value);
@@ -24,7 +26,11 @@ export function LanguageSwitcher({ className }: { className?: string }) {
     <div className="/absolute /end-8 /bottom-4">
       <Select onValueChange={onChange} defaultValue={currentLocale}>
         <SelectTrigger
-          className={cn("w-[160px] bg-background h-8 text-sm", className)}>
+          className={cn(
+            "w-[160px] bg-background h-8 text-sm",
+            className,
+            isRTL && "rtl-grid text-start"
+          )}>
           <SelectValue placeholder="Select a language" />
         </SelectTrigger>
         <SelectContent>

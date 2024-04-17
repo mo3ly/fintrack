@@ -48,13 +48,13 @@ export default function CurrencySelect({
         name="currency"
         onValueChange={onValueChange}>
         <SelectTrigger
-          className={"rtl-grid w-[220px] h-8 text-sm text-start bg-background"}
+          className={"dir-grid w-[220px] h-8 text-sm text-start bg-background"}
           disabled={pending}>
           <SelectValue placeholder="حدد العملة" />
         </SelectTrigger>
         <SelectContent>
           {currencies?.map((currency, index) => (
-            <SelectItem key={index} value={currency.code} className="rtl-grid">
+            <SelectItem key={index} value={currency.code} className="dir-grid">
               {currency.name} ( {currency.symbol} )
             </SelectItem>
           ))}

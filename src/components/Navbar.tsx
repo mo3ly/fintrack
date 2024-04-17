@@ -11,24 +11,23 @@ import { AlignRight } from "lucide-react";
 import { defaultLinks } from "@/config/nav";
 import { siteConfig } from "@/constant/config";
 import SignOutBtn from "@/components/auth/SignOutBtn";
-import { AuthSession } from "@/lib/auth/utils";
-import { Avatar } from "@radix-ui/react-avatar";
-import { AvatarFallback } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { useCurrentLocale } from "@/locales/client";
+import { useIsRTL } from "@/lib/hooks/useIsRTL";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const currentLocale = useCurrentLocale();
+  const isRTL = useIsRTL();
+
   return (
     <div className="md:hidden mb-4 pb-2 w-full /sticky-top sticky top-4 z-10 block">
       <nav className="flex justify-between w-full items-center bg-primary-green text-black p-2 rounded-lg">
         <Link href={"/dashboard"}>
           <div className="font-semibold ps-3 text-lg">
-            {currentLocale == "en" ? siteConfig.title : siteConfig.titleAr}
-            {/* | {siteConfig.title} */}
+            {isRTL ? siteConfig.titleAr : siteConfig.title}
           </div>
         </Link>
         <div></div>
@@ -44,7 +43,7 @@ export default function Navbar() {
           <ul className="space-y-2">
             {defaultLinks.map((link) => (
               <li
-                key={link.title}
+                key={isRTL ? link.titleAr : link.titleEn}
                 onClick={() => setOpen(false)}
                 className="w-full">
                 <Link
@@ -56,11 +55,11 @@ export default function Navbar() {
                     "w-full block"
                   )}>
                   <link.icon className="h-4 mb-1 me-1 inline-flex" />
-                  {link.title}
+                  {isRTL ? link.titleAr : link.titleEn}
                 </Link>
               </li>
             ))}
-            <div className="flex items-center space-s-2">
+            <div className="flex items-center space-s-2 pt-2">
               <SignOutBtn />
               <LanguageSwitcher className="w-[120px]" />
             </div>

@@ -8,9 +8,11 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { defaultLinks, additionalLinks } from "@/config/nav";
 import { LucideIcon } from "lucide-react";
+import { useIsRTL } from "@/lib/hooks/useIsRTL";
 
 export interface SidebarLink {
-  title: string;
+  titleAr: string;
+  titleEn: string;
   href: string;
   icon: LucideIcon;
 }
@@ -55,7 +57,7 @@ const SidebarLinkGroup = ({
       ) : null}
       <ul>
         {links.map((link) => (
-          <li key={link.title}>
+          <li key={link.titleAr}>
             <SidebarLink link={link} active={pathname === link.href} />
           </li>
         ))}
@@ -70,6 +72,8 @@ const SidebarLink = ({
   link: SidebarLink;
   active: boolean;
 }) => {
+  const isRTL = useIsRTL();
+
   return (
     <Link
       href={link.href}
@@ -84,7 +88,7 @@ const SidebarLink = ({
           )}
         />
         <link.icon className="h-3.5 me-1" />
-        <span>{link.title}</span>
+        <span>{isRTL ? link.titleAr : link.titleEn}</span>
       </div>
     </Link>
   );
