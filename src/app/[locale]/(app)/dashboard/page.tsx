@@ -1,13 +1,15 @@
-import { OverviewChart } from "@/app/[locale]/(app)/dashboard/OverviewChart";
-import RecentTransactions from "@/app/[locale]/(app)/dashboard/RecentTransactions";
+import { OverviewChart } from "@/app/[locale]/(app)/dashboard/_components/OverviewChart";
+import RecentTransactions from "@/app/[locale]/(app)/dashboard/_components/RecentTransactions";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getUserAuth } from "@/lib/auth/utils";
 import {
   TimeInterval,
   getTransactionSummary,
+  getRecentTransactions,
 } from "@/lib/api/transactions/queries";
-import PeriodSelector from "@/app/[locale]/(app)/dashboard/PeriodSelector";
-import SummaryCards from "@/app/[locale]/(app)/dashboard/SummaryCards";
+import PeriodSelector from "@/app/[locale]/(app)/dashboard/_components/PeriodSelector";
+import SummaryCards from "@/app/[locale]/(app)/dashboard/_components/SummaryCards";
+import RevenueExpensesChart from "@/app/[locale]/(app)/dashboard/_components/RevenueExpensesChart";
 
 export default async function Home({
   params,
@@ -27,6 +29,7 @@ export default async function Home({
 
   // @ts-ignore
   const result = await getTransactionSummary(period);
+  const { transactions } = await getRecentTransactions(5);
 
   return (
     <main className="">
@@ -40,11 +43,19 @@ export default async function Home({
               <CardTitle>احصائيات</CardTitle>
             </CardHeader>
             <CardContent className="ps-2" dir="ltr">
-              <OverviewChart />
+              <RevenueExpensesChart
+                totalExpenses={result.totalExpenses}
+                totalRevenues={result.totalRevenues}
+                currency={session?.user.currency}
+              />
+              {/* <OverviewChart /> */}
             </CardContent>
           </Card>
 
-          <RecentTransactions />
+          <RecentTransactions
+            transactions={transactions}
+            currency={session?.user.currency}
+          />
         </div>
       </div>
     </main>

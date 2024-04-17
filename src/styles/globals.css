@@ -75,26 +75,32 @@
   }
 }
 
-/* https://stackoverflow.com/questions/54646939/why-is-my-positionsticky-not-working-on-ios */
-/* body,
-html {
-  overflow-x: clip !important;
-} */
-
-.sticky-top {
-  position: -webkit-sticky;
-  position: -moz-sticky;
-  position: -ms-sticky;
-  position: -o-sticky;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
-
 .rtl-grid {
   direction: rtl;
 }
 
 .ltr-grid {
   direction: ltr;
+}
+
+/* https://stackoverflow.com/questions/54646939/why-is-my-positionsticky-not-working-on-ios */
+/* body,
+html {
+  overflow-x: clip !important;
+} */
+
+/* https://stackoverflow.com/questions/2989263/disable-auto-zoom-in-input-text-tag-safari-on-iphone */
+@media screen and (max-width: 768px) and (-webkit-min-device-pixel-ratio: 0) {
+  select:focus,
+  textarea:focus,
+  input:focus {
+    font-size: 16px;
+    /* background: #eee; */
+  }
+
+  select,
+  textarea,
+  input {
+    font-size: 16px;
+  }
 }

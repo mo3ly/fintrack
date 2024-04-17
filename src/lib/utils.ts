@@ -85,6 +85,19 @@ export const formatNumber = (value: number, isRTL: boolean): string => {
   }).format(value);
 };
 
+export const formatDate = (
+  date: string | number | Date,
+  isRTL: boolean
+): string => {
+  const locale = isRTL ? "ar-EG" : "en-US";
+
+  // add option for time as well
+  return new Intl.DateTimeFormat(locale, {
+    day: "2-digit", // Display two digits for the day
+    month: "long", // Display the full name of the month
+    year: "numeric", // Display the year numerically
+  }).format(new Date(date));
+};
 /**
  * from sadmann7/file-uploader repo
  * @see https://github.com/sadmann7/file-uploader/blob/main/src/lib/utils.ts

@@ -19,7 +19,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, Coins } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import {
@@ -45,6 +45,7 @@ import { Textarea } from "@/components/ui/textarea";
 
 // import Link from "next/link";
 import { Link } from "next-view-transitions";
+import { currencies } from "@/constant/config";
 
 const TransactionForm = ({
   categories,
@@ -54,6 +55,7 @@ const TransactionForm = ({
   closeModal,
   addOptimistic,
   postSuccess,
+  currency,
 }: {
   transaction?: Transaction | null;
   categories: Category[];
@@ -62,6 +64,7 @@ const TransactionForm = ({
   closeModal?: () => void;
   addOptimistic?: TAddOptimistic;
   postSuccess?: () => void;
+  currency: string | undefined;
 }) => {
   const { errors, hasErrors, setErrors, handleChange } =
     useValidatedForm<Transaction>(insertTransactionParams);
@@ -107,6 +110,7 @@ const TransactionForm = ({
 
     closeModal && closeModal();
     const values = transactionParsed.data;
+    // @ts-ignore
     const pendingTransaction: Transaction = {
       updatedAt:
         transaction?.updatedAt ??
@@ -148,7 +152,7 @@ const TransactionForm = ({
 
   return (
     <form action={handleSubmit} onChange={handleChange} className={"space-y-0"}>
-      <div className="border px-2 py-2.5 rounded-xl mb-2 bg-yellow-200 dark:bg-yellow-600">
+      <div className="border px-2 py-3 rounded-xl mb-2 bg-yellow-200 dark:bg-yellow-600">
         <RadioGroup name="type" defaultValue={transaction?.type ?? "revenues"}>
           <div className="flex items-center justify-evenly">
             <div className="flex items-center space-s-2">
@@ -163,7 +167,33 @@ const TransactionForm = ({
         </RadioGroup>
       </div>
 
-      <div className="border rounded-lg py-2 px-4 bg-muted">
+      <div className="pb-4 pt-2">
+        <div className="flex items-center justify-between px-3 py-2 text-lg bg-secondary/50 rounded-lg">
+          <Coins className="text-secondary-foreground me-2" />
+          <input
+            type="string"
+            name="amount"
+            placeholder="0.00"
+            defaultValue={transaction?.amount ?? ""}
+            className={cn(
+              "outline-none bg-secondary/50 w-full",
+              errors?.amount && "border-b border-destructive text-destructive"
+            )}
+          />
+          <span className="ms-2">
+            {currencies.find((c) => c.code == currency)?.symbol}
+          </span>
+        </div>
+        {/* <Input
+          type="text"
+          name="amount"
+          placeholder="المبلغ"
+          className={cn(errors?.amount ? "ring ring-destructive" : "")}
+          defaultValue={transaction?.amount ?? ""}
+        /> */}
+      </div>
+
+      <div className="rounded-lg pt-2 px-4 border">
         {categoryId ? null : (
           <div>
             <Label
@@ -299,7 +329,7 @@ const TransactionForm = ({
             <div className="h-6" />
           )}
         </div>
-        <div>
+        {/* <div>
           <Input
             type="text"
             name="amount"
@@ -312,7 +342,7 @@ const TransactionForm = ({
           ) : (
             <div className="h-6" />
           )}
-        </div>
+        </div> */}
         <div>
           {/* <Label
           className={cn(

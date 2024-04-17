@@ -3,9 +3,9 @@
 import { useState } from "react";
 // import Link from "next/link";
 import { Link } from "next-view-transitions";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
-import { cn, formatCurrency } from "@/lib/utils";
+import { cn, formatCurrency, formatDate } from "@/lib/utils";
 import {
   type Transaction,
   CompleteTransaction,
@@ -15,9 +15,17 @@ import { type Category, type CategoryId } from "@/lib/db/schema/categories";
 import { useOptimisticTransactions } from "@/app/[locale]/(app)/transactions/useOptimisticTransactions";
 import { Button } from "@/components/ui/button";
 import TransactionForm from "./TransactionForm";
-import { ChevronUp, ChevronDown, Eye, PlusIcon, Plus } from "lucide-react";
+import {
+  ChevronUp,
+  ChevronDown,
+  Eye,
+  PlusIcon,
+  Plus,
+  ArrowRight,
+  ArrowLeft,
+} from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import StatsCard from "@/app/[locale]/(app)/dashboard/StatsCard";
+import StatsCard from "@/app/[locale]/(app)/dashboard/_components/StatsCard";
 import { useIsRTL } from "@/lib/hooks/useIsRTL";
 
 type TOpenModal = (transaction?: Transaction) => void;
@@ -76,6 +84,7 @@ export default function TransactionList({
           closeModal={closeModal}
           categories={categories}
           categoryId={categoryId}
+          currency={currency}
         />
       </Modal>
       <div className="absolute end-0 top-0 ">
@@ -144,33 +153,37 @@ const Transaction = ({
   const basePath = pathname.includes("transactions")
     ? pathname
     : pathname + "/transactions/";
+  const router = useRouter();
 
   return (
     <li
       className={cn(
-        "flex justify-between items-center my-2 border-b pb-2 ",
+        "flex justify-between items-center  border-b py-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-neutral-900 px-3",
         mutating ? "opacity-30 animate-pulse" : "",
         deleting ? "text-destructive" : ""
-      )}>
+      )}
+      onClick={() => router.push(`/transactions/${transaction.id}`)}>
       <div className="w-full truncate">
         <div className="flex items-center">
           <div className="inline-flex me-2">
             {transaction.type === "revenues" ? (
               <div className="flex items-center text-green-500">
-                <ChevronUp className="w-4 h-4 text-green-500 md:me-2" />
-                <span className="hidden md:block">ايرادات</span>
+                <ArrowRight className="w-4 h-4 text-green-500 rtl:rotate-180 md:me-2" />
+                {/* <span className="hidden md:block">ايرادات</span> */}
               </div>
             ) : (
               <div className="flex items-center text-red-500">
-                <ChevronDown className="w-4 h-4 text-red-500 md:me-2" />
-                <span className="hidden md:block">مصروفات</span>
+                <ArrowLeft className="w-4 h-4 text-red-500 rtl:rotate-180 md:me-2" />
+                {/* <span className="hidden md:block">مصروفات</span> */}
               </div>
             )}
           </div>
-          <div>
+          <div className="flex items-center">
             {transaction.category?.name && (
               <Link href={`/categories/${transaction.category?.id}`}>
-                <Badge className="inline-flex md: md:text-xs text-[0.6rem] me-2 px-1.5 md:font-medium font-normal md:px-2.5">
+                <Badge
+                  variant={"secondary"}
+                  className="inline-flex md: md:text-xs text-[0.6rem] me-2 px-1.5 md:font-medium font-normal md:px-2.5">
                   {transaction.category?.name}
                 </Badge>
               </Link>
@@ -186,21 +199,15 @@ const Transaction = ({
         {formatCurrency(transaction.amount, currency, isRTL)}
       </div>
 
-      <div className="text-xs md:text-sm w-32 md:w-44 text-zinc-400">
-        {transaction.date
-          ? new Intl.DateTimeFormat("ar-EG", {
-              day: "2-digit", // Display two digits for the day
-              month: "long", // Display the full name of the month
-              year: "numeric", // Display the year numerically
-            }).format(new Date(transaction.date))
-          : "غير محدد"}
+      <div className="text-xs md:text-sm w-32 md:w-44 text-end text-zinc-400">
+        {transaction.date ? formatDate(transaction.date, isRTL) : "غير محدد"}
       </div>
-      <Button variant={"link"} asChild className="px-1">
+      {/* <Button variant={"link"} asChild className="px-1">
         <Link href={basePath + "/" + transaction.id}>
           <span className="hidden md:block">معاينة</span>{" "}
           <Eye className="ms-1 h-4 w-4" />
         </Link>
-      </Button>
+      </Button> */}
     </li>
   );
 };

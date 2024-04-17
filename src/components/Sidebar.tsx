@@ -25,8 +25,6 @@ const Sidebar = async () => {
         </div>
         <div className="w-full">
           <UserDetails session={session} />
-          {/* <br />
-          <SignOutBtn /> */}
         </div>
       </div>
     </aside>

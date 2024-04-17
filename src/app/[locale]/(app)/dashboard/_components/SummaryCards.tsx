@@ -1,16 +1,17 @@
 "use client";
 import * as React from "react";
 
-import StatsCard from "@/app/[locale]/(app)/dashboard/StatsCard";
+import StatsCard from "@/app/[locale]/(app)/dashboard/_components/StatsCard";
 import { useIsRTL } from "@/lib/hooks/useIsRTL";
 import { formatCurrency, formatNumber } from "@/lib/utils";
+import { TransactionSummary } from "@/lib/api/transactions/queries";
 
 export default function SummaryCards({
   currency,
   summary,
 }: {
   currency: string | undefined;
-  summary: any;
+  summary: TransactionSummary;
 }) {
   const isRTL = useIsRTL();
 

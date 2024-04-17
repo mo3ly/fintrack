@@ -10,18 +10,23 @@ import { categories } from "@/lib/db/schema/categories";
 
 export const getTransactions = async () => {
   const { session } = await getUserAuth();
+  // if (!session) return "UNAUTHRIZED";
+  if (!session) return { transactions: [] };
+
   const rows = await db
     .select({ transaction: transactions, category: categories })
     .from(transactions)
     .leftJoin(categories, eq(transactions.categoryId, categories.id))
     .where(eq(transactions.userId, session?.user.id!))
-    .orderBy(desc(transactions.date));
+    .orderBy(desc(transactions.createdAt));
   const t = rows.map((r) => ({ ...r.transaction, category: r.category }));
   return { transactions: t };
 };
 
 export const getTransactionById = async (id: TransactionId) => {
   const { session } = await getUserAuth();
+  if (!session) return { transactions: [] };
+
   const { id: transactionId } = transactionIdSchema.parse({ id });
   const [row] = await db
     .select({ transaction: transactions, category: categories })
@@ -43,9 +48,17 @@ export enum TimeInterval {
   Monthly = "monthly",
   Yearly = "yearly",
 }
-
-export const getTransactionSummary = async (interval: TimeInterval) => {
+export interface TransactionSummary {
+  totalCount: number;
+  totalRevenues: number;
+  totalExpenses: number;
+}
+export const getTransactionSummary = async (
+  interval: TimeInterval
+): Promise<TransactionSummary> => {
   const { session } = await getUserAuth();
+  if (!session) return { totalCount: 0, totalRevenues: 0, totalExpenses: 0 };
+
   const now = new Date();
   let startDate: Date;
 
@@ -77,11 +90,29 @@ export const getTransactionSummary = async (interval: TimeInterval) => {
       )
     );
 
-  const result = {
-    totalCount: summary.totalCount || 0,
-    totalRevenues: summary.totalRevenues || 0,
-    totalExpenses: summary.totalExpenses || 0,
-  };
+  if (!summary) {
+    return { totalCount: 0, totalRevenues: 0, totalExpenses: 0 };
+  }
 
-  return result;
+  return {
+    totalCount: Number(summary?.totalCount ?? 0),
+    totalRevenues: Number(summary?.totalRevenues ?? 0),
+    totalExpenses: Number(summary?.totalExpenses ?? 0),
+  };
 };
+
+export async function getRecentTransactions(limit: number) {
+  const { session } = await getUserAuth();
+  if (!session) return { transactions: [] };
+
+  const rows = await db
+    .select({ transaction: transactions, category: categories })
+    .from(transactions)
+    .leftJoin(categories, eq(transactions.categoryId, categories.id))
+    .where(eq(transactions.userId, session?.user.id!))
+    .orderBy(desc(transactions.createdAt))
+    .limit(limit);
+
+  const t = rows.map((r) => ({ ...r.transaction, category: r.category }));
+  return { transactions: t };
+}

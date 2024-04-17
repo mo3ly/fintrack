@@ -7,7 +7,7 @@ interface EmptyCardProps extends React.ComponentPropsWithoutRef<typeof Card> {
   title: string;
   description?: string;
   action?: React.ReactNode;
-  icon?: React.ComponentType<{ className?: string }>;
+  icon?: React.ComponentType<{ className?: string }> | React.ReactNode;
 }
 
 // https://github.com/sadmann7/file-uploader/blob/main/src/components/empty-card.tsx
@@ -19,6 +19,7 @@ export function EmptyCard({
   className,
   ...props
 }: EmptyCardProps) {
+  const isComponent = Icon && typeof Icon === "function";
   return (
     <Card
       className={cn(
@@ -26,8 +27,12 @@ export function EmptyCard({
         className
       )}
       {...props}>
-      <div className="mr-4 shrink-0 rounded-full border border-dashed p-4">
-        <Icon className="size-8 text-muted-foreground" aria-hidden="true" />
+      <div className="shrink-0 rounded-full border border-dashed p-4">
+        {isComponent ? (
+          <Icon className="size-8 text-muted-foreground" aria-hidden="true" />
+        ) : (
+          Icon
+        )}
       </div>
       <div className="flex flex-col items-center gap-1.5 text-center">
         <CardTitle>{title}</CardTitle>

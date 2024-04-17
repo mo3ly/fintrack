@@ -12,7 +12,7 @@ export const transactions = sqliteTable("transactions", {
   id: text("id")
     .primaryKey()
     .$defaultFn(() => nanoid()),
-  title: text("title").notNull(),
+  title: text("title"), //.notNull()
   description: text("description"),
   images: text("images"),
   amount: integer("amount").notNull(),
@@ -41,7 +41,8 @@ export const insertTransactionParams = baseSchema
     date: z.coerce.date(),
     title: z.coerce
       .string({ required_error: "عنوان المعاملة مطلوبة!" })
-      .min(1, { message: "عنوان المعاملة مطلوبة!" }),
+      .optional(),
+    // .min(1, { message: "عنوان المعاملة مطلوبة!" }),
     categoryId: z.coerce
       .string({ required_error: "الفئة مطلوبة!" })
       .min(1, { message: "الفئة مطلوبة!" }),
@@ -58,7 +59,8 @@ export const updateTransactionParams = baseSchema
     date: z.coerce.date(),
     title: z.coerce
       .string({ required_error: "عنوان المعاملة مطلوبة!" })
-      .min(1, { message: "عنوان المعاملة مطلوبة!" }),
+      .optional(),
+    // .min(1, { message: "عنوان المعاملة مطلوبة!" }),
     categoryId: z.coerce
       .string({ required_error: "الفئة مطلوبة!" })
       .min(1, { message: "الفئة مطلوبة!" }),

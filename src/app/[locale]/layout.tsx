@@ -64,6 +64,11 @@ export default function RootLayout({
     <ViewTransitions>
       <html lang={locale} dir={dir} suppressHydrationWarning={true}>
         <head>
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, minimum-scale=1,  maximum-scale=1, user-scalable=0"
+          />
+
           <script
             src="https://beamanalytics.b-cdn.net/beam.min.js"
             data-token="8122eeee-58ff-4438-bb03-5c128cff07fd"

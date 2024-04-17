@@ -3,13 +3,15 @@
 import { useOptimistic, useState } from "react";
 import { TAddOptimistic } from "@/app/[locale]/(app)/transactions/useOptimisticTransactions";
 import { type Transaction } from "@/lib/db/schema/transactions";
-import { cn, formatCurrency } from "@/lib/utils";
+import { cn, formatCurrency, formatDate } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
 import Modal from "@/components/shared/Modal";
 import TransactionForm from "@/components/transactions/TransactionForm";
 import { type Category, type CategoryId } from "@/lib/db/schema/categories";
 import {
+  ArrowLeft,
+  ArrowRight,
   Calendar,
   ChevronDown,
   ChevronUp,
@@ -60,6 +62,7 @@ export default function OptimisticTransaction({
           closeModal={closeModal}
           openModal={openModal}
           addOptimistic={updateTransaction}
+          currency={currency}
         />
       </Modal>
       <div className="flex justify-between items-center mb-4">
@@ -86,13 +89,13 @@ export default function OptimisticTransaction({
           <div className="inline-flex me-2">
             {transaction.type === "revenues" ? (
               <div className="flex items-center text-green-500">
-                <ChevronUp className="w-4 h-4 text-green-500 md:me-2" />
-                ايرادات
+                <ArrowRight className="w-4 h-4 text-green-500 rtl:rotate-180 md:me-2" />
+                <span className="hidden md:block">ايرادات</span>
               </div>
             ) : (
               <div className="flex items-center text-red-500">
-                <ChevronDown className="w-4 h-4 text-red-500 md:me-2" />
-                مصروفات
+                <ArrowLeft className="w-4 h-4 text-red-500 rtl:rotate-180 md:me-2" />
+                <span className="hidden md:block">مصروفات</span>
               </div>
             )}
           </div>
@@ -120,13 +123,7 @@ export default function OptimisticTransaction({
 
         <div className="w-full mb-2">
           <Calendar className="me-2 w-4 h-4 inline-flex" />
-          {transaction.date
-            ? new Intl.DateTimeFormat("ar-EG", {
-                day: "2-digit", // Display two digits for the day
-                month: "long", // Display the full name of the month
-                year: "numeric", // Display the year numerically
-              }).format(new Date(transaction.date))
-            : "غير محدد"}
+          {transaction.date ? formatDate(transaction.date, isRTL) : "غير محدد"}
         </div>
 
         <div className="w-full mb-2">

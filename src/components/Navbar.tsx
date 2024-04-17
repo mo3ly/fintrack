@@ -40,7 +40,7 @@ export default function Navbar() {
         </Button>
       </nav>
       {open ? (
-        <div className="mt-2 rounded-lg mb-4 p-4 bg-muted  duration-500 animate-in fade-in-5 slide-in-from-top-2">
+        <div className="mt-2 rounded-lg absolute mb-4 p-4 w-full bg-muted  duration-500 animate-in fade-in-5 slide-in-from-top-2">
           <ul className="space-y-2">
             {defaultLinks.map((link) => (
               <li
@@ -70,33 +70,3 @@ export default function Navbar() {
     </div>
   );
 }
-
-const UserDetails = ({ session }: { session: AuthSession }) => {
-  if (session.session === null) return null;
-  const { user } = session.session;
-
-  if (!user?.name || user.name.length == 0) return null;
-
-  return (
-    <Link href="/account">
-      <div className="flex items-center justify-between w-full border-t border-border pt-4 px-2">
-        <div className="text-muted">
-          <p className="text-xs">{user.name ?? "John Doe"}</p>
-          <p className="text-xs font-light pe-4">
-            {user.email ?? "john@doe.com"}
-          </p>
-        </div>
-        <Avatar className="h-10 w-10">
-          <AvatarFallback className="border-border bg-black border-2 text-muted-foreground">
-            {user.name
-              ? user.name
-                  ?.split(" ")
-                  .map((word) => word[0].toUpperCase())
-                  .join("")
-              : "~"}
-          </AvatarFallback>
-        </Avatar>
-      </div>
-    </Link>
-  );
-};
