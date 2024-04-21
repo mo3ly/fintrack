@@ -1,21 +1,27 @@
 import { db } from "@/lib/db/index";
 import { and, eq } from "drizzle-orm";
-import { 
-  TransactionId, 
+import {
+  TransactionId,
   NewTransactionParams,
-  UpdateTransactionParams, 
+  UpdateTransactionParams,
   updateTransactionSchema,
-  insertTransactionSchema, 
+  insertTransactionSchema,
   transactions,
-  transactionIdSchema 
+  transactionIdSchema,
 } from "@/lib/db/schema/transactions";
 import { getUserAuth } from "@/lib/auth/utils";
 
 export const createTransaction = async (transaction: NewTransactionParams) => {
   const { session } = await getUserAuth();
-  const newTransaction = insertTransactionSchema.parse({ ...transaction, userId: session?.user.id! });
+  const newTransaction = insertTransactionSchema.parse({
+    ...transaction,
+    userId: session?.user.id!,
+  });
   try {
-    const [t] =  await db.insert(transactions).values(newTransaction).returning();
+    const [t] = await db
+      .insert(transactions)
+      .values(newTransaction)
+      .returning();
     return { transaction: t };
   } catch (err) {
     const message = (err as Error).message ?? "Error, please try again";
@@ -24,16 +30,59 @@ export const createTransaction = async (transaction: NewTransactionParams) => {
   }
 };
 
-export const updateTransaction = async (id: TransactionId, transaction: UpdateTransactionParams) => {
+export const updateTransaction = async (
+  id: TransactionId,
+  transaction: UpdateTransactionParams
+) => {
   const { session } = await getUserAuth();
   const { id: transactionId } = transactionIdSchema.parse({ id });
-  const newTransaction = updateTransactionSchema.parse({ ...transaction, userId: session?.user.id! });
+  const newTransaction = updateTransactionSchema.parse({
+    ...transaction,
+    userId: session?.user.id!,
+  });
   try {
-    const [t] =  await db
-     .update(transactions)
-     .set({...newTransaction, updatedAt: new Date().toISOString().slice(0, 19).replace("T", " ") })
-     .where(and(eq(transactions.id, transactionId!), eq(transactions.userId, session?.user.id!)))
-     .returning();
+    const [t] = await db
+      .update(transactions)
+      .set({
+        ...newTransaction,
+        updatedAt: new Date().toISOString().slice(0, 19).replace("T", " "),
+      })
+      .where(
+        and(
+          eq(transactions.id, transactionId!),
+          eq(transactions.userId, session?.user.id!)
+        )
+      )
+      .returning();
+    return { transaction: t };
+  } catch (err) {
+    const message = (err as Error).message ?? "Error, please try again";
+    console.error(message);
+    throw { error: message };
+  }
+};
+
+export const updateTransactionImage = async (
+  id: TransactionId,
+  image: string
+) => {
+  const { session } = await getUserAuth();
+  const { id: transactionId } = transactionIdSchema.parse({ id });
+  try {
+    const [t] = await db
+      .update(transactions)
+      .set({
+        userId: session?.user.id!,
+        images: image,
+        updatedAt: new Date().toISOString().slice(0, 19).replace("T", " "),
+      })
+      .where(
+        and(
+          eq(transactions.id, transactionId!),
+          eq(transactions.userId, session?.user.id!)
+        )
+      )
+      .returning();
     return { transaction: t };
   } catch (err) {
     const message = (err as Error).message ?? "Error, please try again";
@@ -46,8 +95,15 @@ export const deleteTransaction = async (id: TransactionId) => {
   const { session } = await getUserAuth();
   const { id: transactionId } = transactionIdSchema.parse({ id });
   try {
-    const [t] =  await db.delete(transactions).where(and(eq(transactions.id, transactionId!), eq(transactions.userId, session?.user.id!)))
-    .returning();
+    const [t] = await db
+      .delete(transactions)
+      .where(
+        and(
+          eq(transactions.id, transactionId!),
+          eq(transactions.userId, session?.user.id!)
+        )
+      )
+      .returning();
     return { transaction: t };
   } catch (err) {
     const message = (err as Error).message ?? "Error, please try again";
@@ -55,4 +111,3 @@ export const deleteTransaction = async (id: TransactionId) => {
     throw { error: message };
   }
 };
-

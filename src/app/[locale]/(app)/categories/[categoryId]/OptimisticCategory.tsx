@@ -7,7 +7,7 @@ import { type Category } from "@/lib/db/schema/categories";
 import { Button } from "@/components/ui/button";
 import Modal from "@/components/shared/Modal";
 import CategoryForm from "@/components/categories/CategoryForm";
-import { Pen } from "lucide-react";
+import { ArrowRight, ArrowLeft, Pen } from "lucide-react";
 import { BackButton } from "@/components/shared/BackButton";
 import { useScopedI18n } from "@/locales/client";
 export default function OptimisticCategory({
@@ -36,7 +36,20 @@ export default function OptimisticCategory({
       <div className="flex justify-between items-end mb-4">
         <div className="flex items-center space-s-2">
           <BackButton currentResource="categories" />
-          <h1 className="font-semibold text-2xl">{optimisticCategory.name}</h1>
+          <h1 className="font-semibold text-2xl flex items-center">
+            {optimisticCategory.name}
+            <div className="inline-flex ms-2">
+              {category.type === "revenues" ? (
+                <div className="flex items-center text-green-500">
+                  <span className="text-sm font-normal">{t("revenues")}</span>
+                </div>
+              ) : (
+                <div className="flex items-center text-red-500">
+                  <span className="text-sm font-normal">{t("expenses")}</span>
+                </div>
+              )}
+            </div>
+          </h1>
         </div>
         <Button variant="secondary" onClick={() => setOpen(true)}>
           <Pen className="w-4 h-4 me-1" />

@@ -35,11 +35,13 @@ export default function TransactionList({
   transactions,
   categories,
   categoryId,
+  categoryType,
   currency,
 }: {
   transactions: CompleteTransaction[];
   categories: Category[];
   categoryId?: CategoryId;
+  categoryType?: string;
   currency: string | undefined;
 }) {
   const { optimisticTransactions, addOptimisticTransaction } =
@@ -103,24 +105,56 @@ export default function TransactionList({
         <>
           {/* grid gap-2 md:grid-cols-2 md:gap-4 lg:grid-cols-3  */}
           <div className="flex space-s-2 md:grid md:gap-4 md:grid-cols-3 w-full overflow-x-auto my-4">
-            <StatsCard
-              revenue={formatCurrency(totalRevenues, currency, isRTL)}
-              change=""
-              title={t("totalRevenues")}
-              className="bg-green-200 border-green-100 dark:border-green-800  text-black"
-            />
-            <StatsCard
-              revenue={formatCurrency(totalExpenses, currency, isRTL)}
-              change=""
-              title={t("totalExpenses")}
-              className="bg-red-200 border-red-100 dark:border-red-800  text-black"
-            />
-            <StatsCard
-              revenue={formatCurrency(netIncome, currency, isRTL)}
-              change=""
-              title={t("netIncome")}
-              className="bg-yellow-200 border-yellow-100 dark:border-yellow-800  text-black"
-            />
+            {/* fo categories */}
+            {categoryId ? (
+              <>
+                {categoryType == "revenues" && (
+                  <StatsCard
+                    revenue={formatCurrency(totalRevenues, currency, isRTL)}
+                    change=""
+                    title={t("totalRevenues")}
+                    className="bg-green-200 border-green-100 dark:border-green-800  text-black"
+                  />
+                )}
+                {categoryType == "expenses" && (
+                  <StatsCard
+                    revenue={formatCurrency(totalExpenses, currency, isRTL)}
+                    change=""
+                    title={t("totalExpenses")}
+                    className="bg-red-200 border-red-100 dark:border-red-800  text-black"
+                  />
+                )}
+                {categoryType == "revenues" && (
+                  <StatsCard
+                    revenue={formatCurrency(netIncome, currency, isRTL)}
+                    change=""
+                    title={t("netIncome")}
+                    className="bg-yellow-200 border-yellow-100 dark:border-yellow-800  text-black"
+                  />
+                )}
+              </>
+            ) : (
+              <>
+                <StatsCard
+                  revenue={formatCurrency(totalRevenues, currency, isRTL)}
+                  change=""
+                  title={t("totalRevenues")}
+                  className="bg-green-200 border-green-100 dark:border-green-800  text-black"
+                />
+                <StatsCard
+                  revenue={formatCurrency(totalExpenses, currency, isRTL)}
+                  change=""
+                  title={t("totalExpenses")}
+                  className="bg-red-200 border-red-100 dark:border-red-800  text-black"
+                />
+                <StatsCard
+                  revenue={formatCurrency(netIncome, currency, isRTL)}
+                  change=""
+                  title={t("netIncome")}
+                  className="bg-yellow-200 border-yellow-100 dark:border-yellow-800  text-black"
+                />
+              </>
+            )}
           </div>
 
           <ul className="animate-in fade-in-5 slide-in-from-bottom-2">
@@ -200,11 +234,11 @@ const Transaction = ({
         </div>
       </div>
 
-      <div className="text-xs md:text-sm w-32 md:w-44 font-medium">
+      <div className="text-xs md:text-sm w-36 md:w-44 font-medium">
         {formatCurrency(transaction.amount, currency, isRTL)}
       </div>
 
-      <div className="text-xs md:text-sm w-32 md:w-44 text-end text-zinc-400">
+      <div className="text-xs md:text-sm w-36 md:w-44 text-end text-zinc-400">
         {transaction.date ? formatDate(transaction.date, isRTL) : "غير محدد"}
       </div>
       {/* <Button variant={"link"} asChild className="px-1">

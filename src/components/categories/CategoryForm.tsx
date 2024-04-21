@@ -12,6 +12,7 @@ import { type TAddOptimistic } from "@/app/[locale]/(app)/categories/useOptimist
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useBackPath } from "@/components/shared/BackButton";
 
 import {
@@ -126,6 +127,20 @@ const CategoryForm = ({
   return (
     <form action={handleSubmit} onChange={handleChange} className={"space-y-3"}>
       {/* Schema fields start */}
+      <div className="border px-2 py-3 rounded-xl mb-2 bg-yellow-200 dark:bg-yellow-600">
+        <RadioGroup name="type" defaultValue={category?.type ?? "revenues"}>
+          <div className="flex items-center justify-evenly">
+            <div className="flex items-center space-s-2">
+              <RadioGroupItem value="expenses" id="expenses" />
+              <Label htmlFor="expenses">{t("expenses")}</Label>
+            </div>
+            <div className="flex items-center space-s-2">
+              <RadioGroupItem value="revenues" id="revenues" />
+              <Label htmlFor="revenues">{t("revenues")}</Label>
+            </div>
+          </div>
+        </RadioGroup>
+      </div>
       <div>
         <Label
           className={cn(

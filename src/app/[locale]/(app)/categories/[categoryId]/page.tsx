@@ -42,6 +42,7 @@ const Category = async ({ id }: { id: string }) => {
         <TransactionList
           categories={[]}
           categoryId={category.id}
+          categoryType={category.type}
           transactions={transactions}
           currency={session?.user.currency}
         />

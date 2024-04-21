@@ -55,7 +55,7 @@ export const setAuthCookie = (cookie: Cookie) => {
 };
 
 const getErrorMessage = (errors: any): string => {
-  if (errors) return "البريد الإلكتروني وكلمة المرور غير صالحين!";
+  if (errors) return "Incorrect email or password.";
   // if (errors.email) return "البريد الإلكتروني غير صالح!";
   // if (errors.password) return "Invalid Password - " + errors.password[0];
   return ""; // return a default error message or an empty string

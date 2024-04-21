@@ -39,13 +39,11 @@ export const insertTransactionParams = baseSchema
   .extend({
     amount: zNumber,
     date: z.coerce.date(),
-    title: z.coerce
-      .string({ required_error: "عنوان المعاملة مطلوبة!" })
-      .optional(),
+    title: z.coerce.string({ required_error: "required" }).optional(),
     // .min(1, { message: "عنوان المعاملة مطلوبة!" }),
     categoryId: z.coerce
-      .string({ required_error: "الفئة مطلوبة!" })
-      .min(1, { message: "الفئة مطلوبة!" }),
+      .string({ required_error: "required" })
+      .min(1, { message: "required" }),
   })
   .omit({
     id: true,
@@ -57,13 +55,11 @@ export const updateTransactionParams = baseSchema
   .extend({
     amount: zNumber,
     date: z.coerce.date(),
-    title: z.coerce
-      .string({ required_error: "عنوان المعاملة مطلوبة!" })
-      .optional(),
+    title: z.coerce.string({ required_error: "required" }).optional(),
     // .min(1, { message: "عنوان المعاملة مطلوبة!" }),
     categoryId: z.coerce
-      .string({ required_error: "الفئة مطلوبة!" })
-      .min(1, { message: "الفئة مطلوبة!" }),
+      .string({ required_error: "required" })
+      .min(1, { message: "required" }),
   })
   .omit({
     userId: true,

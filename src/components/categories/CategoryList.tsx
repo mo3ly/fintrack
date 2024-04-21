@@ -1,9 +1,8 @@
 "use client";
 
 import { useState } from "react";
-// import Link from "next/link";
 import { Link } from "next-view-transitions";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import { type Category, CompleteCategory } from "@/lib/db/schema/categories";
 import Modal from "@/components/shared/Modal";
@@ -11,7 +10,7 @@ import Modal from "@/components/shared/Modal";
 import { useOptimisticCategories } from "@/app/[locale]/(app)/categories/useOptimisticCategories";
 import { Button } from "@/components/ui/button";
 import CategoryForm from "./CategoryForm";
-import { Eye, PlusIcon } from "lucide-react";
+import { ArrowLeft, ArrowRight, Eye, PlusIcon } from "lucide-react";
 import { useScopedI18n } from "@/locales/client";
 
 type TOpenModal = (category?: Category) => void;
@@ -76,6 +75,7 @@ const Category = ({
   category: CompleteCategory;
   openModal: TOpenModal;
 }) => {
+  const router = useRouter();
   const optimistic = category.id === "optimistic";
   const deleting = category.id === "delete";
   const mutating = optimistic || deleting;
@@ -87,11 +87,23 @@ const Category = ({
 
   return (
     <li
-      className={`flex justify-between items-center my-2 border px-3 py-2 rounded-lg ${
+      className={`flex justify-between items-center my-2 border px-3 py-2 rounded-lg cursor-pointer ${
         mutating ? "opacity-30 animate-pulse" : ""
-      } ${deleting ? "text-destructive" : ""}`}>
-      <div className="w-full">
+      } ${deleting ? "text-destructive" : ""}`}
+      onClick={() => router.push(`${basePath}/${category.id}`)}>
+      <div className="w-full flex items-center">
         <div>{category.name}</div>
+        <div className="inline-flex ms-1 pb-1">
+          {category.type === "revenues" ? (
+            <div className="flex items-center text-green-500">
+              <span className="text-xs font-normal">{t("revenues")}</span>
+            </div>
+          ) : (
+            <div className="flex items-center text-red-500">
+              <span className="text-xs font-normal">{t("expenses")}</span>
+            </div>
+          )}
+        </div>
       </div>
       <Button className="px-1" variant="link" asChild>
         <Link href={`${basePath}/${category.id}`}>

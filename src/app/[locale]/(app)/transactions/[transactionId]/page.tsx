@@ -40,7 +40,7 @@ const Transaction = async ({ id }: { id: string }) => {
           currency={session?.user.currency}
         />
         <div className="mt-6">
-          <BasicUploader />
+          <BasicUploader transactionId={id} />
         </div>
       </div>
     </Suspense>

@@ -19,7 +19,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { CalendarIcon, Coins } from "lucide-react";
+import { CalendarIcon, Coins, Loader, Save } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import {
@@ -46,6 +46,7 @@ import { Textarea } from "@/components/ui/textarea";
 // import Link from "next/link";
 import { Link } from "next-view-transitions";
 import { currencies } from "@/constant/config";
+import { useScopedI18n } from "@/locales/client";
 
 const TransactionForm = ({
   categories,
@@ -70,12 +71,14 @@ const TransactionForm = ({
     useValidatedForm<Transaction>(insertTransactionParams);
   const editing = !!transaction?.id;
   const [date, setDate] = useState<Date | undefined>(transaction?.date);
+  const [type, setType] = useState<string | undefined>(transaction?.type);
 
   const [isDeleting, setIsDeleting] = useState(false);
   const [pending, startMutation] = useTransition();
 
   const router = useRouter();
   const backpath = useBackPath("transactions");
+  const t = useScopedI18n("transactions");
 
   const onSuccess = (
     action: Action,
@@ -84,13 +87,13 @@ const TransactionForm = ({
     const failed = Boolean(data?.error);
     if (failed) {
       openModal && openModal(data?.values);
-      toast.error(`Failed to ${action}`, {
-        description: data?.error ?? "Error",
+      toast.error(t(`${action}Failed`), {
+        description: data?.error ?? t("genericError"),
       });
     } else {
       router.refresh();
       postSuccess && postSuccess();
-      toast.success(`Transaction ${action}d!`);
+      toast.success(t(`${action}Success`));
       if (action === "delete") router.push(backpath);
     }
   };
@@ -152,16 +155,26 @@ const TransactionForm = ({
 
   return (
     <form action={handleSubmit} onChange={handleChange} className={"space-y-0"}>
-      <div className="border px-2 py-3 rounded-xl mb-2 bg-yellow-200 dark:bg-yellow-600">
-        <RadioGroup name="type" defaultValue={transaction?.type ?? "revenues"}>
+      <div className="border px-2 py-3 rounded-xl mb-2 bg-yellow-200 dark:bg-yellow-600 hidden">
+        <RadioGroup name="type" defaultValue={type ?? "revenues"}>
           <div className="flex items-center justify-evenly">
             <div className="flex items-center space-s-2">
-              <RadioGroupItem value="expenses" id="expenses" />
-              <Label htmlFor="expenses">مصروفات</Label>
+              <RadioGroupItem
+                value="expenses"
+                id="expenses"
+                checked={type === "expenses"}
+                onClick={() => setType("expenses")}
+              />
+              <Label htmlFor="expenses">{t("expenses")}</Label>
             </div>
             <div className="flex items-center space-s-2">
-              <RadioGroupItem value="revenues" id="revenues" />
-              <Label htmlFor="revenues">ايرادات</Label>
+              <RadioGroupItem
+                value="revenues"
+                id="revenues"
+                checked={type === "revenues"}
+                onClick={() => setType("revenues")}
+              />
+              <Label htmlFor="revenues">{t("revenues")}</Label>
             </div>
           </div>
         </RadioGroup>
@@ -184,13 +197,6 @@ const TransactionForm = ({
             {currencies.find((c) => c.code == currency)?.symbol}
           </span>
         </div>
-        {/* <Input
-          type="text"
-          name="amount"
-          placeholder="المبلغ"
-          className={cn(errors?.amount ? "ring ring-destructive" : "")}
-          defaultValue={transaction?.amount ?? ""}
-        /> */}
       </div>
 
       <div className="rounded-lg pt-2 px-4 border">
@@ -201,21 +207,26 @@ const TransactionForm = ({
                 "mb-2 inline-block",
                 errors?.categoryId ? "text-destructive" : ""
               )}>
-              التصنيف
+              {t("category")}
             </Label>
-            <Select defaultValue={transaction?.categoryId} name="categoryId">
+            <Select
+              defaultValue={transaction?.categoryId}
+              name="categoryId"
+              onValueChange={(id) =>
+                setType(categories.find((c) => c.id == id)?.type)
+              }>
               <SelectTrigger
                 className={cn(
                   errors?.categoryId ? "ring ring-destructive" : "",
-                  "rtl-grid text-start bg-background"
+                  " bg-background"
                 )}>
-                <SelectValue placeholder="حدد التصنيف" />
+                <SelectValue placeholder={t("selectCategory")} />
               </SelectTrigger>
-              <SelectContent className="rtl-grid">
+              <SelectContent className="">
                 {categories?.length == 0 && (
                   <div className="text-sm px-2">
-                    لا يوجد تصنيفات قم بإضافة تصنيف{" "}
-                    <Link href={"categories"}>
+                    {t("noCategory")}{" "}
+                    <Link href={"/categories"}>
                       <Button variant={"secondary"} size={"icon"} className="">
                         +
                       </Button>
@@ -248,7 +259,7 @@ const TransactionForm = ({
               "mb-2 inline-block",
               errors?.date ? "text-destructive" : ""
             )}>
-            التاريخ
+            {t("date")}
           </Label>
           <br />
           <Popover>
@@ -270,7 +281,7 @@ const TransactionForm = ({
                 {date ? (
                   <span>{format(date, "PPP")}</span>
                 ) : (
-                  <span>اختر التاريخ</span>
+                  <span>{format(new Date(), "PPP")}</span>
                 )}
                 <CalendarIcon className="ms-auto h-4 w-4 opacity-50" />
               </Button>
@@ -283,7 +294,6 @@ const TransactionForm = ({
                 disabled={(date: any) =>
                   date > new Date() || date < new Date("1900-01-01")
                 }
-                // initialFocus
               />
             </PopoverContent>
           </Popover>
@@ -299,7 +309,7 @@ const TransactionForm = ({
           <Input
             type="text"
             name="title"
-            placeholder="عنوان المعاملة"
+            placeholder={t("name")}
             className={cn(errors?.title ? "ring ring-destructive" : "")}
             defaultValue={transaction?.title ?? ""}
           />
@@ -315,7 +325,7 @@ const TransactionForm = ({
               "mb-2 inline-block",
               errors?.images ? "text-destructive" : ""
             )}>
-            الصور
+            Images
           </Label>
           <Input
             type="text"
@@ -329,31 +339,10 @@ const TransactionForm = ({
             <div className="h-6" />
           )}
         </div>
-        {/* <div>
-          <Input
-            type="text"
-            name="amount"
-            placeholder="المبلغ"
-            className={cn(errors?.amount ? "ring ring-destructive" : "")}
-            defaultValue={transaction?.amount ?? ""}
-          />
-          {errors?.amount ? (
-            <p className="text-xs text-destructive mt-2">{errors.amount[0]}</p>
-          ) : (
-            <div className="h-6" />
-          )}
-        </div> */}
         <div>
-          {/* <Label
-          className={cn(
-            "mb-2 inline-block",
-            errors?.description ? "text-destructive" : ""
-          )}>
-          الوصف (اختياري)
-        </Label> */}
           <Textarea
             name="description"
-            placeholder="الوصف (اختياري)"
+            placeholder={t("description")}
             className={cn(errors?.description ? "ring ring-destructive" : "")}
             defaultValue={transaction?.description ?? ""}
           />
@@ -372,7 +361,7 @@ const TransactionForm = ({
               "mb-2 inline-block",
               errors?.status ? "text-destructive" : ""
             )}>
-            الحالة
+            Status
           </Label>
           <Input
             type="text"
@@ -411,7 +400,7 @@ const TransactionForm = ({
               onSuccess("delete", error ? errorFormatted : undefined);
             });
           }}>
-          {isDeleting ? "جارٍ الحذف..." : "حذف"}
+          {t(isDeleting ? "deleting" : "delete")}
         </Button>
       ) : null}
     </form>
@@ -430,19 +419,26 @@ const SaveButton = ({
   const { pending } = useFormStatus();
   const isCreating = pending && editing === false;
   const isUpdating = pending && editing === true;
+  const t = useScopedI18n("transactions");
+
   return (
     <Button
       type="submit"
       className="me-2"
       disabled={isCreating || isUpdating || errors}
       aria-disabled={isCreating || isUpdating || errors}>
+      {isUpdating || isCreating ? (
+        <Loader className="me-1 h-4 w-4 animate-spin" />
+      ) : (
+        <Save className="me-1 h-4 w-4" />
+      )}
       {editing
         ? isUpdating
-          ? "جاري الحفظ..."
-          : "حفظ"
+          ? t("updating")
+          : t("update")
         : isCreating
-        ? "جاري الإنشاء..."
-        : "إنشاء"}
+        ? t("creating")
+        : t("create")}
     </Button>
   );
 };

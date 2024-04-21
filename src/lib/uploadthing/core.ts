@@ -34,12 +34,12 @@ export const ourFileRouter = {
 
       console.log("file url", file.url);
 
-      if (metadata.userId)
-        await db
-          .update(transactions)
-          // make as json later to accept more image
-          .set({ images: file.url })
-          .where(eq(transactions.userId, metadata.userId));
+      // if (metadata.userId)
+      //   await db
+      //     .update(transactions)
+      //     // make as json later to accept more image
+      //     .set({ images: file.url })
+      //     .where(eq(transactions.userId, metadata.userId));
 
       // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
       return { uploadedBy: metadata.userId };

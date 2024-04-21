@@ -37,7 +37,7 @@ export async function signInAction(
       .where(eq(users.email, data.email.toLowerCase()));
     if (!existingUser) {
       return {
-        error: "البريد الإلكتروني وكلمة المرور غير صالحين",
+        error: "Incorrect email or password.",
       };
     }
 
@@ -55,7 +55,7 @@ export async function signInAction(
     );
     if (!validPassword) {
       return {
-        error: "البريد الإلكتروني وكلمة المرور غير صالحين",
+        error: "Incorrect email or password.",
       };
     }
 

@@ -13,6 +13,7 @@ export const categories = sqliteTable("categories", {
     .$defaultFn(() => nanoid()),
   name: text("name").notNull(),
   userId: text("user_id").notNull(),
+  type: text("type").notNull(),
 
   createdAt: text("created_at")
     .notNull()
@@ -30,8 +31,8 @@ export const insertCategorySchema =
 export const insertCategoryParams = baseSchema
   .extend({
     name: z
-      .string({ required_error: "الإسم مطلوب!" })
-      .min(2, { message: "لا يمكن أن يكون اسم التصنيف اقل من 2 حرف!" }),
+      .string({ required_error: "required" })
+      .min(2, { message: "Can't be less than 2 characters!" }),
   })
   .omit({
     id: true,
@@ -39,9 +40,15 @@ export const insertCategoryParams = baseSchema
   });
 
 export const updateCategorySchema = baseSchema;
-export const updateCategoryParams = baseSchema.extend({}).omit({
-  userId: true,
-});
+export const updateCategoryParams = baseSchema
+  .extend({
+    name: z
+      .string({ required_error: "required" })
+      .min(2, { message: "Can't be less than 2 characters!" }),
+  })
+  .omit({
+    userId: true,
+  });
 export const categoryIdSchema = baseSchema.pick({ id: true });
 
 // Types for categories - used to type API request params and within Components

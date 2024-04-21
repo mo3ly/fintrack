@@ -27,6 +27,7 @@ import { Badge } from "@/components/ui/badge";
 import { Link } from "next-view-transitions";
 import { BackButton } from "@/components/shared/BackButton";
 import { useIsRTL } from "@/lib/hooks/useIsRTL";
+import { useScopedI18n } from "@/locales/client";
 
 export default function OptimisticTransaction({
   transaction,
@@ -51,10 +52,10 @@ export default function OptimisticTransaction({
     setOptimisticTransaction({ ...input.data });
 
   const isRTL = useIsRTL();
-
+  const t = useScopedI18n("transactions");
   return (
     <div className="/my-4">
-      <Modal title="تعديل المعاملة" open={open} setOpen={setOpen}>
+      <Modal title={t("editTransaction")} open={open} setOpen={setOpen}>
         <TransactionForm
           transaction={optimisticTransaction}
           categories={categories}
@@ -77,7 +78,7 @@ export default function OptimisticTransaction({
           variant={"secondary"}
           onClick={() => setOpen(true)}>
           <Pen className="w-4 h-4 me-1" />
-          تعديل
+          {t("edit")}
         </Button>
       </div>
       <div
@@ -90,31 +91,30 @@ export default function OptimisticTransaction({
             {transaction.type === "revenues" ? (
               <div className="flex items-center text-green-500">
                 <ArrowRight className="w-4 h-4 text-green-500 rtl:rotate-180 md:me-2" />
-                <span className="hidden md:block">ايرادات</span>
+                <span className="hidden md:block">{t("revenues")}</span>
               </div>
             ) : (
               <div className="flex items-center text-red-500">
                 <ArrowLeft className="w-4 h-4 text-red-500 rtl:rotate-180 md:me-2" />
-                <span className="hidden md:block">مصروفات</span>
+                <span className="hidden md:block">{t("expenses")}</span>
               </div>
             )}
           </div>
         </div>
 
-        <div className="w-full mb-2">
-          <Tag className="me-2 w-4 h-4 inline-flex" />
-          <Link href={`/categories/${transaction.categoryId}`}>
-            {/* @ts-ignore */}
-            {transaction.category?.name ? (
+        {/* @ts-ignore */}
+        {transaction.category != null && (
+          <div className="w-full mb-2">
+            <Tag className="me-2 w-4 h-4 inline-flex" />
+            <Link href={`/categories/${transaction.categoryId}`}>
+              {/* @ts-ignore */}
               <Badge className="inline-flex me-2">
                 {/* @ts-ignore */}
                 {transaction.category?.name}
               </Badge>
-            ) : (
-              "غير مصنف"
-            )}
-          </Link>
-        </div>
+            </Link>
+          </div>
+        )}
 
         <div className="w-full mb-2">
           <Coins className="me-2 w-4 h-4 inline-flex" />
@@ -126,10 +126,12 @@ export default function OptimisticTransaction({
           {transaction.date ? formatDate(transaction.date, isRTL) : "غير محدد"}
         </div>
 
-        <div className="w-full mb-2">
-          <NotebookPen className="me-2 w-4 h-4 inline-flex" />
-          {optimisticTransaction.description || "لا توجد ملاحظات"}
-        </div>
+        {optimisticTransaction.description && (
+          <div className="w-full mb-2">
+            <NotebookPen className="me-2 w-4 h-4 inline-flex" />
+            {optimisticTransaction.description}
+          </div>
+        )}
 
         <div className="w-full">
           <Image className="me-2 w-4 h-4 inline-flex" />
@@ -140,17 +142,10 @@ export default function OptimisticTransaction({
               className="rounded-lg w-44 object-cover"
             />
           ) : (
-            "لا توجد صور"
+            <>{t("noImage")}</>
           )}
         </div>
       </div>
-      {/* <pre
-        className={cn(
-          "bg-secondary p-4 rounded-lg break-all text-wrap",
-          optimisticTransaction.id === "optimistic" ? "animate-pulse" : ""
-        )}>
-        {JSON.stringify(optimisticTransaction, null, 2)}
-      </pre> */}
     </div>
   );
 }
