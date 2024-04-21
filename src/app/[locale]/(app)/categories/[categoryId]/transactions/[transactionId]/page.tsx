@@ -38,6 +38,7 @@ const Transaction = async ({ id }: { id: string }) => {
           transaction={transaction}
           categories={categories}
           categoryId={transaction.categoryId}
+          categoryType={transaction.category?.type}
           currency={session?.user.currency}
         />
         <div className="mt-6">

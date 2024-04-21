@@ -22,9 +22,7 @@ export function BasicUploader({ transactionId }: { transactionId: string }) {
         const uploadedUrls = uploadedFiles.map((file) => file.url);
         try {
           await updateTransactionImageUrl(transactionId, uploadedUrls[0])
-            .then((updatedTransaction) =>
-              console.log("Transaction updated:", updatedTransaction)
-            )
+            .then((updatedTransaction) => console.log("Transaction updated"))
             .catch((error) =>
               console.error("Error updating transaction:", error)
             );

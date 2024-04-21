@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { useFormStatus } from "react-dom";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -47,10 +47,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { Link } from "next-view-transitions";
 import { currencies } from "@/constant/config";
 import { useScopedI18n } from "@/locales/client";
+import { useIsRTL } from "@/lib/hooks/useIsRTL";
 
 const TransactionForm = ({
   categories,
   categoryId,
+  categoryType,
   transaction,
   openModal,
   closeModal,
@@ -61,6 +63,7 @@ const TransactionForm = ({
   transaction?: Transaction | null;
   categories: Category[];
   categoryId?: CategoryId;
+  categoryType?: string;
   openModal?: (transaction?: Transaction) => void;
   closeModal?: () => void;
   addOptimistic?: TAddOptimistic;
@@ -71,13 +74,16 @@ const TransactionForm = ({
     useValidatedForm<Transaction>(insertTransactionParams);
   const editing = !!transaction?.id;
   const [date, setDate] = useState<Date | undefined>(transaction?.date);
-  const [type, setType] = useState<string | undefined>(transaction?.type);
+  const [type, setType] = useState<string | undefined>(
+    categoryType || transaction?.type
+  );
 
   const [isDeleting, setIsDeleting] = useState(false);
   const [pending, startMutation] = useTransition();
 
   const router = useRouter();
   const backpath = useBackPath("transactions");
+  const isRTL = useIsRTL();
   const t = useScopedI18n("transactions");
 
   const onSuccess = (
@@ -218,7 +224,8 @@ const TransactionForm = ({
               <SelectTrigger
                 className={cn(
                   errors?.categoryId ? "ring ring-destructive" : "",
-                  " bg-background"
+                  " bg-background",
+                  isRTL && "rtl-grid"
                 )}>
                 <SelectValue placeholder={t("selectCategory")} />
               </SelectTrigger>
@@ -237,8 +244,23 @@ const TransactionForm = ({
                   <SelectItem
                     key={category.id}
                     value={category.id.toString()}
-                    className="rtl-grid">
+                    className={cn(isRTL && "rtl-grid")}>
                     {category.name}
+                    <div className="inline-flex ms-1 pb-1">
+                      {category.type === "revenues" ? (
+                        <div className="flex items-center text-green-500">
+                          <span className="text-xs font-normal">
+                            {t("revenues")}
+                          </span>
+                        </div>
+                      ) : (
+                        <div className="flex items-center text-red-500">
+                          <span className="text-xs font-normal">
+                            {t("expenses")}
+                          </span>
+                        </div>
+                      )}
+                    </div>
                   </SelectItem>
                 ))}
               </SelectContent>

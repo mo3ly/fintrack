@@ -91,6 +91,7 @@ export default function TransactionList({
           closeModal={closeModal}
           categories={categories}
           categoryId={categoryId}
+          categoryType={categoryType}
           currency={currency}
         />
       </Modal>

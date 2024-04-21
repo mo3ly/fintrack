@@ -33,12 +33,14 @@ export default function OptimisticTransaction({
   transaction,
   categories,
   categoryId,
+  categoryType,
   currency,
 }: {
   transaction: Transaction;
 
   categories: Category[];
   categoryId?: CategoryId;
+  categoryType?: string;
   currency: string | undefined;
 }) {
   const [open, setOpen] = useState(false);
@@ -60,6 +62,7 @@ export default function OptimisticTransaction({
           transaction={optimisticTransaction}
           categories={categories}
           categoryId={categoryId}
+          categoryType={categoryType}
           closeModal={closeModal}
           openModal={openModal}
           addOptimistic={updateTransaction}
