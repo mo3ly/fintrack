@@ -1,7 +1,11 @@
 # FinTrack
 
-![alt text](https://i.ibb.co/hKGZ5Z1/banner.png)
-![alt text](https://i.ibb.co/3mtwFbF/793shots-so.jpg)
+<div align="center">
+  <img src="https://i.ibb.co/hKGZ5Z1/banner.png" alt="Banner Image">
+</div>
+<div align="center">
+  <img src="https://i.ibb.co/3mtwFbF/793shots-so.jpg" alt="Screenshot Image">
+</div>
 
 **FinTrack** simplifies financial tracking by allowing users to record expenses and revenues effectively. It combines modern web technologies and features to provide a seamless experience. Deployed live at [FinTrack](https://fintrack.cash/).
 
