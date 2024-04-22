@@ -1,6 +1,7 @@
 # FinTrack
 
-![alt text](https://i.ibb.co/C7HdmY9/banner.png)
+![alt text](https://i.ibb.co/hKGZ5Z1/banner.png)
+![alt text](https://i.ibb.co/3mtwFbF/793shots-so.jpg)
 
 **FinTrack** simplifies financial tracking by allowing users to record expenses and revenues effectively. It combines modern web technologies and features to provide a seamless experience. Deployed live at [FinTrack](https://fintrack.cash/).
 
@@ -40,7 +41,7 @@ Clone the repository and install dependencies:
 
 ```bash
 git clone <repository-url>
-cd fintech
+cd fintrack
 pnpm install
 ```
 
