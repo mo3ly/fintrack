@@ -54,7 +54,7 @@ pnpm install
 
 ### Environment Setup
 
-```
+```bash
 # Database configuration
 DATABASE_URL=your_database_connection_string
 DATABASE_AUTH_TOKEN=your_database_auth_token
@@ -67,6 +67,10 @@ GOOGLE_CODE_VERIFIER=your_google_code_verifier
 # Upload component configuration
 UPLOADTHING_SECRET=your_uploadthing_secret
 UPLOADTHING_APP_ID=your_uploadthing_app_id
+
+
+# Beam Analytics configuration
+BEAM_ANALYTICS_TOKEN=
 
 # Application URL
 NEXT_PUBLIC_APP_URL=http://localhost:3000
