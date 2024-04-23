@@ -11,36 +11,36 @@
 
 # Features
 
-- 📊 **Dashboard**: Quick financial overview with charts and recent transactions.
-- 💳 **Transactions**: Manage and track spending with options to add, edit, or delete transactions. Supports receipt uploads and multiple currencies.
-- 🗂 **Categories**: Categorize expenses and revenues for organized financial planning.
-- 🔒 **Account**: Secure user account management.
-- ⚙️ **Settings**: Personalize settings including language, currency, and themes.
-- 🌍 **Multi-Currency Support**: Handle transactions in various currencies.
-- 🌐 **Bilingual Interface**: Supports Arabic and English, with RTL and LTR layouts.
-- 🌓 **Dark and Light Modes**: Toggle between themes for comfort.
+- **Dashboard**: Quick financial overview with charts and recent transactions.
+- **Transactions**: Manage and track spending with options to add, edit, or delete transactions. Supports receipt uploads and multiple currencies.
+- **Categories**: Categorize expenses and revenues for organized financial planning.
+- **Account**: Secure user account management.
+- **Settings**: Personalize settings including language, currency, and themes.
+- **Multi-Currency Support**: Handle transactions in various currencies.
+- **Bilingual Interface**: Supports Arabic and English, with RTL and LTR layouts.
+- **Dark and Light Modes**: Toggle between themes for comfort.
 
 ## Technologies
 
-- **Next.js**: Framework for building scalable server-rendered React applications.
-- **TailwindCSS**: Utility-first CSS framework for rapid UI development.
-- **Drizzle ORM**: Lightweight and performant TypeScript ORM. [More Info](https://orm.drizzle.team)
-- **Turso**: SQLite for production with scalable per-tenant database architecture. [More Info](https://turso.tech)
-- **Shadcn/ui**: Beautifully designed, customizable, and accessible UI components. [More Info](https://ui.shadcn.com)
-- **Lucia Auth**: Authentication system for managing user sessions.
-- **Typescript**: Strongly typed programming language that builds on JavaScript.
-- **React Server Components (RSC)**: Server-side rendering for React components.
-- **Next.js Progress Bar**: Visual feedback on page loading states.
-- **OAuth Integration**: Authentication using Google or custom credentials.
+- **Next.js**
+- **TailwindCSS**
+- **Drizzle ORM**
+- **Turso**
+- **Shadcn/ui**
+- **Lucia Auth**
+- **Typescript**
+- **Server Actions**
+- **React Server Components (RSC)**
+- **Next.js Progress Bar**
+- **OAuth Integration**
 - **Internationalization**: Supported with `next-international`.
-- **Custom Hooks and Utilities**: For state management and other reusable logic.
-- **Server Actions**: Secure and efficient backend operations.
+- **Custom Hooks and Utilities**
 
 ## Credits and Acknowledgements
 
-- **File Uploader**: Utilizes the `file-uploader` component by Sadman Samee, which leverages `shadcn` for UI components. [View Repository](https://github.com/sadmann7/file-uploader)
-
-- **OAuth Provider**: Implements Google authentication using `orbitkit` by Ahmed Magdi, which provides a comprehensive setup for OAuth. [View Google Auth Provider Source](https://github.com/ixahmedxi/orbitkit/blob/main/packages/auth/src/providers/google.ts)
+- **File Uploader**: Features the `file-uploader` component by Sadman Samee, incorporating `shadcn` for enhanced UI components. [View Source](https://github.com/sadmann7/file-uploader)
+- **OAuth Provider**: Implements Google authentication through `orbitkit` by Ahmed Magdi, offering robust OAuth capabilities. [View Source](https://github.com/ixahmedxi/orbitkit/blob/main/packages/auth/src/providers/google.ts)
+- **Tailwind Animation**: Utilizes animations from the `Slug` open-source repository. [View Source](https://github.com/pheralb/slug)
 
 ## Installation
 
