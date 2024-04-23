@@ -7,7 +7,6 @@ import { useIsRTL } from "@/lib/hooks/useIsRTL";
 
 import Link from "next/link";
 import { useScopedI18n } from "@/locales/client";
-import { ExternalLinkIcon } from "@radix-ui/react-icons";
 
 export default function Header() {
   const isRTL = useIsRTL();
@@ -17,24 +16,6 @@ export default function Header() {
   return (
     <>
       <div className="duration-500 mx-auto text-center animate-in fade-in-5 slide-in-from-bottom-2 flex flex-col items-center justify-center">
-        <div className="fixed top-3 flex items-center space-s-1">
-          <Link
-            href={"https://x.com/mo3lyy"}
-            target="_blank"
-            rel="noopener noreferrer">
-            <Button variant={"linkHover2"}>
-              <ExternalLinkIcon className="me-1" /> X/Twitter
-            </Button>
-          </Link>
-          <Link
-            href={"https://github.com/mo3ly/fintrack"}
-            target="_blank"
-            rel="noopener noreferrer">
-            <Button variant={"linkHover2"}>
-              <ExternalLinkIcon className="me-1" /> Github
-            </Button>
-          </Link>
-        </div>
         <div className="text-4xl lg:text-6xl font-bold rtl:mb-1">
           {isRTL ? siteConfig.titleAr : siteConfig.title}
         </div>
