@@ -11,14 +11,14 @@
 
 # Features
 
-- **Dashboard**: Provides an overview of your financial status with recent transactions and summary charts.
-- **Transactions**: Manage all financial transactions with options to add, edit, or delete. Each transaction can include uploading a receipt image for better record-keeping. Supports multiple currencies, allowing you to track expenses and revenues in different monetary units.
-- **Categories**: Organize expenses and revenues into categories for better financial planning.
-- **Account**: User account management featuring secure authentication.
-- **Settings**: Customize application settings including localization, currency and theme preferences.
-- **Multi-Currency Support**: Conduct and track transactions in multiple currencies.
-- **Bilingual Interface**: Fully supports Arabic and English with adaptable Right-to-Left (RTL) and Left-to-Right (LTR) layouts, ensuring a seamless user experience for a global audience.
-- **Dark and Light Modes**: Choose your preferred theme for optimal viewing comfort.
+- 📊 **Dashboard**: Quick financial overview with charts and recent transactions.
+- 💳 **Transactions**: Manage and track spending with options to add, edit, or delete transactions. Supports receipt uploads and multiple currencies.
+- 🗂 **Categories**: Categorize expenses and revenues for organized financial planning.
+- 🔒 **Account**: Secure user account management.
+- ⚙️ **Settings**: Personalize settings including language, currency, and themes.
+- 🌍 **Multi-Currency Support**: Handle transactions in various currencies.
+- 🌐 **Bilingual Interface**: Supports Arabic and English, with RTL and LTR layouts.
+- 🌓 **Dark and Light Modes**: Toggle between themes for comfort.
 
 ## Technologies
 
